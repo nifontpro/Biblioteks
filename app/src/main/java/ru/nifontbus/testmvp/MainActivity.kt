@@ -7,7 +7,7 @@ import ru.nifontbus.testmvp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), MainView {
 
-    private var _binding : ActivityMainBinding? = null
+    private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
     private val presenter = MainPresenter(this)
@@ -17,22 +17,28 @@ class MainActivity : AppCompatActivity(), MainView {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val listener = View.OnClickListener {
-            presenter.counterClick(it.id)
-        }
+        binding.btnCounter1.setOnClickListener { presenter.counterClick1() }
+        binding.btnCounter2.setOnClickListener { presenter.counterClick2() }
+        binding.btnCounter3.setOnClickListener { presenter.counterClick3() }
 
-        binding.btnCounter1.setOnClickListener(listener)
-        binding.btnCounter2.setOnClickListener(listener)
-        binding.btnCounter3.setOnClickListener(listener)
-
+        initView()
     }
 
-    override fun setButtonText(index: Int, text: String) {
-        when(index){
-            0 -> binding.btnCounter1.text = text
-            1 -> binding.btnCounter2.text = text
-            2 -> binding.btnCounter3.text = text
-        }
+    private fun initView() {
+        setButtonText1("0")
+        setButtonText2("0")
+        setButtonText3("0")
     }
 
+    override fun setButtonText1(text: String) {
+        binding.btnCounter1.text = text
+    }
+
+    override fun setButtonText2(text: String) {
+        binding.btnCounter2.text = text
+    }
+
+    override fun setButtonText3(text: String) {
+        binding.btnCounter3.text = text
+    }
 }
