@@ -1,16 +1,16 @@
 package ru.nifontbus.testmvp
 
 import android.os.Bundle
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import moxy.MvpAppCompatActivity
+import moxy.ktx.moxyPresenter
 import ru.nifontbus.testmvp.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : MvpAppCompatActivity(), MainView {
 
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
-    private val presenter = MainPresenter(this)
+    private val presenter by moxyPresenter { MainPresenter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
