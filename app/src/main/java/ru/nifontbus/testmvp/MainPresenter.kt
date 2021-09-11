@@ -1,23 +1,43 @@
 package ru.nifontbus.testmvp
 
 import moxy.MvpPresenter
+import ru.nifontbus.testmvp.models.GithubUser
+import ru.nifontbus.testmvp.models.GithubUsersRepo
+import ru.nifontbus.testmvp.presentation.IUserListPresenter
+import ru.nifontbus.testmvp.views.UserItemView
 
-class MainPresenter : MvpPresenter<MainView>() {
+class MainPresenter(val repo: GithubUsersRepo) : MvpPresenter<MainView>() {
 
-    private val model = CountersModel()
+    class UsersListPresenter: IUserListPresenter {
 
-    fun counterClick1() {
-        val nextValue = model.next(0)
-        viewState.setButtonText1(nextValue.toString())
+        val users = mutableListOf<GithubUser>()
+
+        override var itemClickListener: ((UserItemView) -> Unit)? = null
+
+        override fun bindView(view: UserItemView) {
+            val user = users[view.pos]
+            view.showLogin(user.login)
+        }
+
+        override fun getCount(): Int = users.size
     }
 
-    fun counterClick2() {
-        val nextValue = model.next(1)
-        viewState.setButtonText2(nextValue.toString())
+    val usersListPresenter = UsersListPresenter()
+
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        viewState.init()
+        loadData()
+
+        usersListPresenter.itemClickListener = {itemView ->
+            // TODO
+        }
+
     }
 
-    fun counterClick3() {
-        val nextValue = model.next(2)
-        viewState.setButtonText3(nextValue.toString())
+    private fun loadData() {
+        val users = repo.getUsers()
+        usersListPresenter.users.addAll(users)
+        viewState.updateList()
     }
 }
