@@ -6,5 +6,5 @@ import ru.nifontbus.testmvp.models.GithubUser
 
 @AddToEndSingle
 interface DetailsView: MvpView {
-    fun init(detailsUser: GithubUser)
+    fun showDetailsUser(detailsUser: GithubUser)
 }

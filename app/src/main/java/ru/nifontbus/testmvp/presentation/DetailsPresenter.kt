@@ -2,23 +2,17 @@ package ru.nifontbus.testmvp.presentation
 
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
-import ru.nifontbus.testmvp.models.DetailsUserRepo
+import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.views.DetailsView
 
-class DetailsPresenter(
-    private val detailsUserRepo: DetailsUserRepo,
-    private val router: Router
-) : MvpPresenter<DetailsView>() {
+class DetailsPresenter : MvpPresenter<DetailsView>() {
+
+    private val detailsUserRepo = App.instance.detailsUserRepo
+    private val router: Router = App.instance.router
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-//        viewState.init()
-        loadData()
-    }
-
-    private fun loadData() {
-        val detailsUser = detailsUserRepo.detailsUser
-        viewState.init(detailsUser)
+        viewState.showDetailsUser(detailsUserRepo.detailsUser)
     }
 
     fun backPressed(): Boolean {

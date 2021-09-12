@@ -2,6 +2,7 @@ package ru.nifontbus.testmvp.presentation
 
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
+import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.models.GithubUsersRepo
 import ru.nifontbus.testmvp.screens.IScreens
 import ru.nifontbus.testmvp.views.ui.UsersView
@@ -13,6 +14,7 @@ class UsersPresenter(
 ) : MvpPresenter<UsersView>() {
 
     val usersListPresenter = UsersListPresenter()
+    private val detailsUserRepo = App.instance.detailsUserRepo
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -20,8 +22,10 @@ class UsersPresenter(
         loadData()
 
         usersListPresenter.itemClickListener = { itemView ->
-            val login = usersListPresenter.users[itemView.pos].login
-            router.navigateTo(screens.detailsScreen(login))
+            val detailsUser = usersListPresenter.users[itemView.pos]
+            detailsUserRepo.detailsUser = detailsUser
+
+            router.navigateTo(screens.detailsScreen())
         }
     }
 

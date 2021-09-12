@@ -8,17 +8,15 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.databinding.FragmentDetailsBinding
-import ru.nifontbus.testmvp.models.DetailsUserRepo
 import ru.nifontbus.testmvp.models.GithubUser
 import ru.nifontbus.testmvp.presentation.DetailsPresenter
 import ru.nifontbus.testmvp.views.BackButtonListener
 import ru.nifontbus.testmvp.views.DetailsView
 
-class DetailsFragment(val login: String) : MvpAppCompatFragment(), DetailsView, BackButtonListener {
+class DetailsFragment : MvpAppCompatFragment(), DetailsView,
+    BackButtonListener {
 
-    private val presenter by moxyPresenter {
-        DetailsPresenter(DetailsUserRepo(), App.instance.router)
-    }
+    private val presenter by moxyPresenter { DetailsPresenter() }
 
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
@@ -32,8 +30,8 @@ class DetailsFragment(val login: String) : MvpAppCompatFragment(), DetailsView, 
         return binding.root
     }
 
-    override fun init(detailsUser: GithubUser) {
-        binding.tvLogin.text = login
+    override fun showDetailsUser(detailsUser: GithubUser) {
+        binding.tvLogin.text = detailsUser.login
 
         binding.btnClose.setOnClickListener {
             presenter.backPressed()
@@ -50,6 +48,6 @@ class DetailsFragment(val login: String) : MvpAppCompatFragment(), DetailsView, 
     }
 
     companion object {
-        fun newInstance(login: String) = DetailsFragment(login)
+        fun newInstance() = DetailsFragment()
     }
 }
