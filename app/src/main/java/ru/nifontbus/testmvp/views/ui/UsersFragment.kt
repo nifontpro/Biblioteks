@@ -11,12 +11,13 @@ import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.databinding.FragmentUsersBinding
 import ru.nifontbus.testmvp.models.GithubUsersRepo
 import ru.nifontbus.testmvp.presentation.UsersPresenter
+import ru.nifontbus.testmvp.screens.AndroidScreens
 import ru.nifontbus.testmvp.views.BackButtonListener
 
 class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
     private val presenter by moxyPresenter {
-        UsersPresenter(GithubUsersRepo(), App.instance.router)
+        UsersPresenter(GithubUsersRepo(), App.instance.router, AndroidScreens())
     }
 
     private val adapter by lazy { UsersRvAdapter(presenter.usersListPresenter) }
@@ -49,5 +50,9 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
     override fun backPressed(): Boolean {
         return presenter.backPressed()
+    }
+
+    companion object {
+        fun newInstance() = UsersFragment()
     }
 }

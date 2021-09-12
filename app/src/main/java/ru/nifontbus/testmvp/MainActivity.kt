@@ -6,8 +6,8 @@ import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
 import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.databinding.ActivityMainBinding
-import ru.nifontbus.testmvp.models.GithubUsersRepo
 import ru.nifontbus.testmvp.presentation.MainPresenter
+import ru.nifontbus.testmvp.screens.AndroidScreens
 import ru.nifontbus.testmvp.views.BackButtonListener
 import ru.nifontbus.testmvp.views.MainView
 
@@ -18,7 +18,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
 
     private val navigator = AppNavigator(this, R.id.container)
 
-    private val presenter by moxyPresenter { MainPresenter(App.instance.router) }
+    private val presenter by moxyPresenter { MainPresenter(App.instance.router, AndroidScreens()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

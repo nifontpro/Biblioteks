@@ -2,19 +2,13 @@ package ru.nifontbus.testmvp.screens
 
 import com.github.terrakok.cicerone.Screen
 import com.github.terrakok.cicerone.androidx.FragmentScreen
+import ru.nifontbus.testmvp.views.ui.DetailsFragment
 import ru.nifontbus.testmvp.views.ui.UsersFragment
 
-/*
-interface AndroidScreens : IScreens {
-    override fun usersScreen(): Screen {
-        return FragmentScreen { UsersFragment() }
-    }
-}*/
+class AndroidScreens : IScreens {
 
-object AndroidScreens {
-
-    fun usersScreen(): Screen {
-        return FragmentScreen { UsersFragment() }
-    }
+    override fun usersScreen(): Screen = FragmentScreen { UsersFragment.newInstance() }
+    override fun detailsScreen(login: String): Screen =
+        FragmentScreen { DetailsFragment.newInstance(login) }
 }
 
