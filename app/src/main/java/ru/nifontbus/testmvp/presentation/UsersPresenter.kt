@@ -1,14 +1,19 @@
-package ru.nifontbus.testmvp
+package ru.nifontbus.testmvp.presentation
 
+import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 import ru.nifontbus.testmvp.models.GithubUser
 import ru.nifontbus.testmvp.models.GithubUsersRepo
-import ru.nifontbus.testmvp.presentation.IUserListPresenter
 import ru.nifontbus.testmvp.views.UserItemView
+import ru.nifontbus.testmvp.views.ui.UsersView
 
-class MainPresenter(val repo: GithubUsersRepo) : MvpPresenter<MainView>() {
+class UsersPresenter(
+    private val usersRepo: GithubUsersRepo,
+    val router: Router
+) :
+    MvpPresenter<UsersView>() {
 
-    class UsersListPresenter: IUserListPresenter {
+    class UsersListPresenter : IUserListPresenter {
 
         val users = mutableListOf<GithubUser>()
 
@@ -29,15 +34,20 @@ class MainPresenter(val repo: GithubUsersRepo) : MvpPresenter<MainView>() {
         viewState.init()
         loadData()
 
-        usersListPresenter.itemClickListener = {itemView ->
+        usersListPresenter.itemClickListener = { itemView ->
             // TODO
         }
 
     }
 
     private fun loadData() {
-        val users = repo.getUsers()
+        val users = usersRepo.getUsers()
         usersListPresenter.users.addAll(users)
         viewState.updateList()
+    }
+
+    fun backPressed():Boolean {
+        router.exit()
+        return true
     }
 }
