@@ -3,6 +3,7 @@ package ru.nifontbus.testmvp.presentation
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 import ru.nifontbus.testmvp.app.App
+import ru.nifontbus.testmvp.models.GithubUser
 import ru.nifontbus.testmvp.models.GithubUsersRepo
 import ru.nifontbus.testmvp.screens.IScreens
 import ru.nifontbus.testmvp.views.ui.UsersView
@@ -30,9 +31,16 @@ class UsersPresenter(
     }
 
     private fun loadData() {
-        val users = usersRepo.getUsers()
-        usersListPresenter.users.addAll(users)
+        usersRepo.getUsers()
+            .map { user ->
+                GithubUser("Привет, " + user.login)
+            }
+            .subscribe { user ->
+                usersListPresenter.users.add(user)
+            }
+
         viewState.updateList()
+
     }
 
     fun backPressed(): Boolean {
