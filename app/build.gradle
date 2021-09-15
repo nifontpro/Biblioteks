@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -45,4 +47,17 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
+    implementation 'com.github.terrakok:cicerone:6.6'
+    // Moxy
+    // https://github.com/moxy-community/Moxy
+    def moxy_ver = '2.2.2'
+    implementation "com.github.moxy-community:moxy:$moxy_ver"
+    kapt "com.github.moxy-community:moxy-compiler:$moxy_ver"
+
+    implementation "com.github.moxy-community:moxy-ktx:$moxy_ver"
+    implementation "com.github.moxy-community:moxy-androidx:$moxy_ver"
+
 }

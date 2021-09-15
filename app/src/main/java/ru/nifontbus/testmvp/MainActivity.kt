@@ -1,44 +1,48 @@
 package ru.nifontbus.testmvp
 
 import android.os.Bundle
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import com.github.terrakok.cicerone.androidx.AppNavigator
+import moxy.MvpAppCompatActivity
+import moxy.ktx.moxyPresenter
+import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.databinding.ActivityMainBinding
+import ru.nifontbus.testmvp.presentation.MainPresenter
+import ru.nifontbus.testmvp.screens.AndroidScreens
+import ru.nifontbus.testmvp.views.BackButtonListener
+import ru.nifontbus.testmvp.views.MainView
 
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : MvpAppCompatActivity(), MainView {
 
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
-    private val presenter = MainPresenter(this)
+    private val navigator = AppNavigator(this, R.id.container)
+
+    private val presenter by moxyPresenter { MainPresenter(App.instance.router, AndroidScreens()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        binding.btnCounter1.setOnClickListener { presenter.counterClick1() }
-        binding.btnCounter2.setOnClickListener { presenter.counterClick2() }
-        binding.btnCounter3.setOnClickListener { presenter.counterClick3() }
-
-        initView()
     }
 
-    private fun initView() {
-        setButtonText1("0")
-        setButtonText2("0")
-        setButtonText3("0")
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        App.instance.navigationHolder.setNavigator(navigator)
     }
 
-    override fun setButtonText1(text: String) {
-        binding.btnCounter1.text = text
+    override fun onPause() {
+        super.onPause()
+        App.instance.navigationHolder.removeNavigator()
     }
 
-    override fun setButtonText2(text: String) {
-        binding.btnCounter2.text = text
-    }
-
-    override fun setButtonText3(text: String) {
-        binding.btnCounter3.text = text
+    override fun onBackPressed() {
+        supportFragmentManager.fragments.forEach {
+            if (it is BackButtonListener && it.backPressed()) {
+                return
+            }
+        }
+        presenter.backPressed()
     }
 }
