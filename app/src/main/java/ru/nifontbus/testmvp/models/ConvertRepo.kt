@@ -13,42 +13,34 @@ import java.util.*
 
 class ConvertRepo {
 
-    // Method to get a bitmap from assets
-    fun loadBitmap(fileName: String) = Single.fromCallable {
-        val stream = assets.open(fileName)
-        return@fromCallable BitmapFactory.decodeStream(stream)
-    }
-
-    fun convert(bitmap: Bitmap) = Single.fromCallable {
-        return@fromCallable bitmap.compress()
-    }
-
     // Method to save an bitmap to a file
-    fun saveBitmap(bitmap:Bitmap): Uri {
+    fun saveBitmapToFile(bitmap: Bitmap): Single<String> = Single.create { emitter ->
         // Get the context wrapper
         val wrapper = ContextWrapper(App.instance.applicationContext)
 
         // Initialize a new file instance to save bitmap object
         var file = wrapper.getDir("Images", Context.MODE_PRIVATE)
-        file = File(file,"${UUID.randomUUID()}.jpg")
+        file = File(file, "${UUID.randomUUID()}.png")
 
-        try{
-            // Compress the bitmap and save in jpg format
-            val stream:OutputStream = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream)
+        try {
+            // Compress the bitmap and save in png format
+            val stream: OutputStream = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
             stream.flush()
             stream.close()
-        }catch (e:IOException){
+
+        } catch (e: IOException) {
             e.printStackTrace()
+            emitter.onError(e)
         }
 
         // Return the saved bitmap uri
-        return Uri.parse(file.absolutePath)
+        emitter.onSuccess(Uri.parse(file.absolutePath).toString())
     }
 
     // Extension function to compress and change bitmap image format programmatically
     fun Bitmap.compress(
-        format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG,
+        format: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG,
         quality: Int = 100
     ): Bitmap {
         // Initialize a new ByteArrayStream

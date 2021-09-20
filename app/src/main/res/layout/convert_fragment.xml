@@ -13,13 +13,15 @@
         android:id="@+id/image_view_bitmap"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:src="@drawable/test"
         tools:ignore="ContentDescription" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="Bitmap from assets" />
+        android:text="Bitmap from assets"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:id="@+id/button"
@@ -27,12 +29,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="10dp"
-        android:text="Bitmap To File" />
+        android:text="Convert To File *.png"
+        tools:ignore="HardcodedText" />
 
-    <ImageView
-        android:id="@+id/image_view_file"
-        android:layout_width="match_parent"
-        android:layout_height="200dp" />
+
 
     <TextView
         android:id="@+id/text_view"
@@ -40,4 +40,12 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/out_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="out text" />
+
+
 </LinearLayout>

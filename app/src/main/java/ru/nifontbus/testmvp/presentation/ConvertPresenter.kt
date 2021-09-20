@@ -1,6 +1,8 @@
 package ru.nifontbus.testmvp.presentation
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Log
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -13,24 +15,24 @@ class ConvertPresenter : MvpPresenter<ConvertView>() {
 
     private val router: Router = App.instance.router
     private val convertRepo = ConvertRepo()
+
+    //    val inBitmap = BitmapFactory.decodeFile("app/src/main/res/drawable/test.jpg")
     lateinit var inBitmap: Bitmap
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        convertRepo.loadBitmap("test.jpg")
-            .subscribe { bitmap ->
-                inBitmap = bitmap
-                viewState.showInputImage(bitmap)
-            }
     }
 
     fun convert() {
-        convertRepo.convert(inBitmap)
+
+        convertRepo.saveBitmapToFile(inBitmap)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { outBitmap ->
-                viewState.showOutputImage(outBitmap)
-                convertRepo.saveBitmap(outBitmap)
+            .subscribe { fileName ->
+//                viewState.showOutputImage(outBitmap)
+//                convertRepo.saveBitmapToFile(outBitmap)
+                Log.e("my", fileName)
+                viewState.showOutputImage(fileName)
             }
     }
 

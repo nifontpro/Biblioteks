@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.MeasureSpec
 import android.view.ViewGroup
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -32,17 +33,16 @@ class ConvertFragment : MvpAppCompatFragment(), ConvertView,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        presenter.inBitmap = getBitmapFromResource()
+
         binding.button.setOnClickListener {
             presenter.convert()
         }
     }
 
-    override fun showInputImage(bitmap: Bitmap) {
-        binding.imageViewBitmap.setImageBitmap(bitmap)
-    }
-
-    override fun showOutputImage(bitmap: Bitmap) {
-        binding.imageViewFile.setImageBitmap(bitmap)
+    override fun showOutputImage(text: String) {
+        binding.outText.text = text
     }
 
     override fun onDestroyView() {
@@ -56,5 +56,24 @@ class ConvertFragment : MvpAppCompatFragment(), ConvertView,
 
     companion object {
         fun newInstance() = ConvertFragment()
+    }
+
+    private fun getBitmapFromResource(): Bitmap {
+        val bitmap: Bitmap
+        with (binding.imageViewBitmap) {
+            isDrawingCacheEnabled = true
+            measure(
+                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
+            )
+            layout(
+                0, 0,
+                measuredWidth, measuredHeight
+            )
+            buildDrawingCache(true)
+            bitmap = Bitmap.createBitmap(drawingCache)
+            isDrawingCacheEnabled = false
+        }
+        return bitmap
     }
 }
