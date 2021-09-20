@@ -1,25 +1,49 @@
 package ru.nifontbus.testmvp.models
 
+import android.content.Context
+import android.content.ContextWrapper
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
+import io.reactivex.rxjava3.core.Single
+import ru.nifontbus.testmvp.app.App
 import java.io.*
+import java.util.*
 
 
 class ConvertRepo {
 
     // Method to get a bitmap from assets
-    fun loadBitmap(fileName:String):Bitmap?{
-        return try{
-            val stream = assets.open(fileName)
-            BitmapFactory.decodeStream(stream)
-        }catch (e:IOException){
-            e.printStackTrace()
-            null
-        }
+    fun loadBitmap(fileName: String) = Single.fromCallable {
+        val stream = assets.open(fileName)
+        return@fromCallable BitmapFactory.decodeStream(stream)
     }
 
-    fun convert(bitmap: Bitmap): Bitmap {
-        return bitmap.compress()
+    fun convert(bitmap: Bitmap) = Single.fromCallable {
+        return@fromCallable bitmap.compress()
+    }
+
+    // Method to save an bitmap to a file
+    fun saveBitmap(bitmap:Bitmap): Uri {
+        // Get the context wrapper
+        val wrapper = ContextWrapper(App.instance.applicationContext)
+
+        // Initialize a new file instance to save bitmap object
+        var file = wrapper.getDir("Images", Context.MODE_PRIVATE)
+        file = File(file,"${UUID.randomUUID()}.jpg")
+
+        try{
+            // Compress the bitmap and save in jpg format
+            val stream:OutputStream = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,stream)
+            stream.flush()
+            stream.close()
+        }catch (e:IOException){
+            e.printStackTrace()
+        }
+
+        // Return the saved bitmap uri
+        return Uri.parse(file.absolutePath)
     }
 
     // Extension function to compress and change bitmap image format programmatically
