@@ -1,5 +1,9 @@
 package ru.nifontbus.testmvp.models
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import java.io.ByteArrayOutputStream
+
 class GithubUsersRepo {
     private val users = listOf(
         GithubUser("user1"),

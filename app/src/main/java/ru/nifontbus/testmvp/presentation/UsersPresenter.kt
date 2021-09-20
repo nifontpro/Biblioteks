@@ -5,7 +5,7 @@ import moxy.MvpPresenter
 import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.models.GithubUsersRepo
 import ru.nifontbus.testmvp.screens.IScreens
-import ru.nifontbus.testmvp.views.ui.UsersView
+import ru.nifontbus.testmvp.views.UsersView
 
 class UsersPresenter(
     private val usersRepo: GithubUsersRepo,

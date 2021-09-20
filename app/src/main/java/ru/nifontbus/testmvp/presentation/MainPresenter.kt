@@ -11,7 +11,8 @@ class MainPresenter(private val router: Router, val screens: IScreens) : MvpPres
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
-        router.replaceScreen(screens.usersScreen())
+//        router.replaceScreen(screens.usersScreen())
+        router.replaceScreen(screens.convertScreen())
     }
 
     fun backPressed() {

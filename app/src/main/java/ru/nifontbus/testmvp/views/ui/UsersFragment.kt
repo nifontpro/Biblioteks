@@ -13,6 +13,7 @@ import ru.nifontbus.testmvp.models.GithubUsersRepo
 import ru.nifontbus.testmvp.presentation.UsersPresenter
 import ru.nifontbus.testmvp.screens.AndroidScreens
 import ru.nifontbus.testmvp.views.BackButtonListener
+import ru.nifontbus.testmvp.views.UsersView
 
 class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
