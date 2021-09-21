@@ -12,6 +12,7 @@ class UsersListPresenter : IUserListPresenter {
     override fun bindView(view: UserItemView) {
         val user = users[view.pos]
         user.login?.let { view.showLogin(it) }
+        user.avatarUrl?.let { view.loadAvatar(it) }
     }
 
     override fun getCount(): Int = users.size

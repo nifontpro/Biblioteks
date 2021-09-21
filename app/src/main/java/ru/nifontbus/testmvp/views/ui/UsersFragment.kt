@@ -11,6 +11,7 @@ import moxy.ktx.moxyPresenter
 import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.databinding.FragmentUsersBinding
 import ru.nifontbus.testmvp.models.ApiHolder
+import ru.nifontbus.testmvp.models.GlideImageLoader
 import ru.nifontbus.testmvp.models.RetrofitGithubUsersRepo
 import ru.nifontbus.testmvp.presentation.UsersPresenter
 import ru.nifontbus.testmvp.screens.AndroidScreens
@@ -27,7 +28,12 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
         )
     }
 
-    private val adapter by lazy { UsersRvAdapter(presenter.usersListPresenter) }
+    private val adapter by lazy {
+        UsersRvAdapter(
+            presenter.usersListPresenter,
+            GlideImageLoader()
+        )
+    }
 
     private var _binding: FragmentUsersBinding? = null
     private val binding get() = _binding!!
