@@ -1,10 +1,10 @@
 package ru.nifontbus.testmvp.presentation
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.util.Log
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
 import ru.nifontbus.testmvp.app.App
@@ -15,25 +15,30 @@ class ConvertPresenter : MvpPresenter<ConvertView>() {
 
     private val router: Router = App.instance.router
     private val convertRepo = ConvertRepo()
+    private val compositeDispose = CompositeDisposable()
 
-    //    val inBitmap = BitmapFactory.decodeFile("app/src/main/res/drawable/test.jpg")
     lateinit var inBitmap: Bitmap
 
-    override fun onFirstViewAttach() {
-        super.onFirstViewAttach()
+    override fun detachView(view: ConvertView?) {
+        super.detachView(view)
+        cancelObserve()
+    }
+
+    fun cancelObserve() {
+        compositeDispose.clear()
     }
 
     fun convert() {
 
-        convertRepo.saveBitmapToFile(inBitmap)
+        val result = convertRepo.saveBitmapToFile(inBitmap)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { fileName ->
-//                viewState.showOutputImage(outBitmap)
-//                convertRepo.saveBitmapToFile(outBitmap)
                 Log.e("my", fileName)
                 viewState.showOutputImage(fileName)
             }
+
+        compositeDispose.add(result)
     }
 
     fun backPressed(): Boolean {

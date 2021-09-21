@@ -39,6 +39,10 @@ class ConvertFragment : MvpAppCompatFragment(), ConvertView,
         binding.button.setOnClickListener {
             presenter.convert()
         }
+
+        binding.btnCancel.setOnClickListener {
+            presenter.cancelObserve()
+        }
     }
 
     override fun showOutputImage(text: String) {
