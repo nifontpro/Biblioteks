@@ -45,7 +45,7 @@ class ConvertFragment : MvpAppCompatFragment(), ConvertView,
         }
     }
 
-    override fun showOutputImage(text: String) {
+    override fun showOutputText(text: String) {
         binding.outText.text = text
     }
 

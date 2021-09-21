@@ -5,5 +5,5 @@ import moxy.viewstate.strategy.alias.AddToEndSingle
 
 @AddToEndSingle
 interface ConvertView: MvpView {
-    fun showOutputImage(text: String)
+    fun showOutputText(text: String)
 }

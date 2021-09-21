@@ -26,6 +26,7 @@ class ConvertPresenter : MvpPresenter<ConvertView>() {
 
     fun cancelObserve() {
         compositeDispose.clear()
+        viewState.showOutputText("Convert canceled")
     }
 
     fun convert() {
@@ -35,7 +36,7 @@ class ConvertPresenter : MvpPresenter<ConvertView>() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { fileName ->
                 Log.e("my", fileName)
-                viewState.showOutputImage(fileName)
+                viewState.showOutputText(fileName)
             }
 
         compositeDispose.add(result)
