@@ -1,15 +1,16 @@
 package ru.nifontbus.testmvp.presentation
 
 import com.github.terrakok.cicerone.Router
+import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
 import ru.nifontbus.testmvp.app.App
-import ru.nifontbus.testmvp.models.GithubUser
-import ru.nifontbus.testmvp.models.GithubUsersRepo
+import ru.nifontbus.testmvp.models.IGithubUsersRepo
 import ru.nifontbus.testmvp.screens.IScreens
 import ru.nifontbus.testmvp.views.ui.UsersView
 
 class UsersPresenter(
-    private val usersRepo: GithubUsersRepo,
+    private val uiScheduler: Scheduler,
+    private val usersRepo: IGithubUsersRepo,
     private val router: Router,
     private val screens: IScreens
 ) : MvpPresenter<UsersView>() {
@@ -32,11 +33,11 @@ class UsersPresenter(
 
     private fun loadData() {
         usersRepo.getUsers()
-            .map { user ->
-                GithubUser("Привет, " + user.login)
-            }
-            .subscribe { user ->
-                usersListPresenter.users.add(user)
+            .observeOn(uiScheduler)
+            .subscribe { repos ->
+                usersListPresenter.users.clear()
+                usersListPresenter.users.addAll(repos)
+                viewState.updateList()
             }
 
         viewState.updateList()
