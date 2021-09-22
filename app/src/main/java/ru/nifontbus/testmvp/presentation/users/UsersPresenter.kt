@@ -6,6 +6,7 @@ import moxy.MvpPresenter
 import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.models.repo.IGithubUsersRepo
 import ru.nifontbus.testmvp.presentation.screens.IScreens
+import ru.nifontbus.testmvp.presentation.users.adapter.UsersListPresenter
 
 class UsersPresenter(
     private val uiScheduler: Scheduler,
@@ -33,14 +34,11 @@ class UsersPresenter(
     private fun loadData() {
         usersRepo.getUsers()
             .observeOn(uiScheduler)
-            .subscribe { repos ->
+            .subscribe { users ->
                 usersListPresenter.users.clear()
-                usersListPresenter.users.addAll(repos)
+                usersListPresenter.users.addAll(users)
                 viewState.updateList()
             }
-
-        viewState.updateList()
-
     }
 
     fun backPressed(): Boolean {
