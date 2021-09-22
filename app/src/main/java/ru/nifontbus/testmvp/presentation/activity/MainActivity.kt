@@ -1,15 +1,14 @@
-package ru.nifontbus.testmvp
+package ru.nifontbus.testmvp.presentation.activity
 
 import android.os.Bundle
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
+import ru.nifontbus.testmvp.R
 import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.databinding.ActivityMainBinding
-import ru.nifontbus.testmvp.presentation.MainPresenter
 import ru.nifontbus.testmvp.screens.AndroidScreens
 import ru.nifontbus.testmvp.views.BackButtonListener
-import ru.nifontbus.testmvp.views.MainView
 
 class MainActivity : MvpAppCompatActivity(), MainView {
 

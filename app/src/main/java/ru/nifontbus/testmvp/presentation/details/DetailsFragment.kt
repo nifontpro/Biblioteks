@@ -1,4 +1,4 @@
-package ru.nifontbus.testmvp.views.ui
+package ru.nifontbus.testmvp.presentation.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,12 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.databinding.FragmentDetailsBinding
-import ru.nifontbus.testmvp.models.GithubUser
-import ru.nifontbus.testmvp.presentation.DetailsPresenter
+import ru.nifontbus.testmvp.models.data.GithubUser
 import ru.nifontbus.testmvp.views.BackButtonListener
-import ru.nifontbus.testmvp.views.DetailsView
 
 class DetailsFragment : MvpAppCompatFragment(), DetailsView,
     BackButtonListener {

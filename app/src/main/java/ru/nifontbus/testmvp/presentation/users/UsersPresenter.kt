@@ -1,12 +1,12 @@
-package ru.nifontbus.testmvp.presentation
+package ru.nifontbus.testmvp.presentation.users
 
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
 import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.models.IGithubUsersRepo
+import ru.nifontbus.testmvp.presentation.UsersListPresenter
 import ru.nifontbus.testmvp.screens.IScreens
-import ru.nifontbus.testmvp.views.ui.UsersView
 
 class UsersPresenter(
     private val uiScheduler: Scheduler,

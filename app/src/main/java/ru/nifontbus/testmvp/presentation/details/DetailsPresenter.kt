@@ -1,9 +1,8 @@
-package ru.nifontbus.testmvp.presentation
+package ru.nifontbus.testmvp.presentation.details
 
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 import ru.nifontbus.testmvp.app.App
-import ru.nifontbus.testmvp.views.DetailsView
 
 class DetailsPresenter : MvpPresenter<DetailsView>() {
 

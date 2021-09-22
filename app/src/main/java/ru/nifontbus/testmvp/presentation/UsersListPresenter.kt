@@ -1,7 +1,7 @@
 package ru.nifontbus.testmvp.presentation
 
-import ru.nifontbus.testmvp.models.GithubUser
-import ru.nifontbus.testmvp.views.UserItemView
+import ru.nifontbus.testmvp.models.data.GithubUser
+import ru.nifontbus.testmvp.presentation.users.adapter.UserItemView
 
 class UsersListPresenter : IUserListPresenter {
 

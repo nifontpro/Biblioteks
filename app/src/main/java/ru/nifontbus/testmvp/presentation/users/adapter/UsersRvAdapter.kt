@@ -1,20 +1,19 @@
-package ru.nifontbus.testmvp.views.ui
+package ru.nifontbus.testmvp.presentation.users.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import ru.nifontbus.testmvp.databinding.ItemUserBinding
-import ru.nifontbus.testmvp.models.IImageLoader
+import ru.nifontbus.testmvp.models.images.IImageLoader
 import ru.nifontbus.testmvp.presentation.IUserListPresenter
-import ru.nifontbus.testmvp.views.UserItemView
 
 class UsersRvAdapter(
     private val presenter: IUserListPresenter,
     private val imageLoader: IImageLoader<ImageView>
 ) : RecyclerView.Adapter<UsersRvAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UsersRvAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             ItemUserBinding.inflate(
                 LayoutInflater.from(parent.context),

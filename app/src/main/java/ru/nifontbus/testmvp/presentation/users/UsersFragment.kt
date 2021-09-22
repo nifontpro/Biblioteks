@@ -1,4 +1,4 @@
-package ru.nifontbus.testmvp.views.ui
+package ru.nifontbus.testmvp.presentation.users
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,12 +10,12 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.databinding.FragmentUsersBinding
-import ru.nifontbus.testmvp.models.ApiHolder
-import ru.nifontbus.testmvp.models.GlideImageLoader
+import ru.nifontbus.testmvp.models.remote.ApiHolder
+import ru.nifontbus.testmvp.models.images.GlideImageLoader
 import ru.nifontbus.testmvp.models.RetrofitGithubUsersRepo
-import ru.nifontbus.testmvp.presentation.UsersPresenter
 import ru.nifontbus.testmvp.screens.AndroidScreens
 import ru.nifontbus.testmvp.views.BackButtonListener
+import ru.nifontbus.testmvp.presentation.users.adapter.UsersRvAdapter
 
 class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 

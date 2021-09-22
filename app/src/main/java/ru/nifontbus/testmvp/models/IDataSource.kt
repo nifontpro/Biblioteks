@@ -3,6 +3,7 @@ package ru.nifontbus.testmvp.models
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
+import ru.nifontbus.testmvp.models.data.GithubUser
 
 interface IDataSource {
     @GET("users")
