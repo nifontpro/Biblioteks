@@ -1,4 +1,4 @@
-package ru.nifontbus.testmvp.models
+package ru.nifontbus.testmvp.models.repo
 
 import io.reactivex.rxjava3.core.Single
 import ru.nifontbus.testmvp.models.data.GithubUser

@@ -12,9 +12,9 @@ import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.databinding.FragmentUsersBinding
 import ru.nifontbus.testmvp.models.remote.ApiHolder
 import ru.nifontbus.testmvp.models.images.GlideImageLoader
-import ru.nifontbus.testmvp.models.RetrofitGithubUsersRepo
-import ru.nifontbus.testmvp.screens.AndroidScreens
-import ru.nifontbus.testmvp.views.BackButtonListener
+import ru.nifontbus.testmvp.models.repo.RetrofitGithubUsersRepo
+import ru.nifontbus.testmvp.presentation.screens.AndroidScreens
+import ru.nifontbus.testmvp.presentation.screens.BackButtonListener
 import ru.nifontbus.testmvp.presentation.users.adapter.UsersRvAdapter
 
 class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {

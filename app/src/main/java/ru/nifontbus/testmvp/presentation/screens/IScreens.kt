@@ -1,4 +1,4 @@
-package ru.nifontbus.testmvp.screens
+package ru.nifontbus.testmvp.presentation.screens
 
 import com.github.terrakok.cicerone.Screen
 

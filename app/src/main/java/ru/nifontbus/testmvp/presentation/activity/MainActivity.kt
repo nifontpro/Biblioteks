@@ -7,8 +7,8 @@ import moxy.ktx.moxyPresenter
 import ru.nifontbus.testmvp.R
 import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.databinding.ActivityMainBinding
-import ru.nifontbus.testmvp.screens.AndroidScreens
-import ru.nifontbus.testmvp.views.BackButtonListener
+import ru.nifontbus.testmvp.presentation.screens.AndroidScreens
+import ru.nifontbus.testmvp.presentation.screens.BackButtonListener
 
 class MainActivity : MvpAppCompatActivity(), MainView {
 

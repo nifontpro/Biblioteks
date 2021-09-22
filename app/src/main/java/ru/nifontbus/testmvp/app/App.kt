@@ -3,7 +3,7 @@ package ru.nifontbus.testmvp.app
 import android.app.Application
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
-import ru.nifontbus.testmvp.models.DetailsUserRepo
+import ru.nifontbus.testmvp.models.repo.DetailsUserRepo
 
 class App:Application() {
 

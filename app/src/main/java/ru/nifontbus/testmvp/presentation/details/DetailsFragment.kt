@@ -8,7 +8,7 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.nifontbus.testmvp.databinding.FragmentDetailsBinding
 import ru.nifontbus.testmvp.models.data.GithubUser
-import ru.nifontbus.testmvp.views.BackButtonListener
+import ru.nifontbus.testmvp.presentation.screens.BackButtonListener
 
 class DetailsFragment : MvpAppCompatFragment(), DetailsView,
     BackButtonListener {

@@ -1,4 +1,4 @@
-package ru.nifontbus.testmvp.models
+package ru.nifontbus.testmvp.models.repo
 
 import ru.nifontbus.testmvp.models.data.GithubUser
 
