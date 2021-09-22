@@ -5,7 +5,6 @@ import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
 import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.models.repo.IGithubUsersRepo
-import ru.nifontbus.testmvp.presentation.UsersListPresenter
 import ru.nifontbus.testmvp.presentation.screens.IScreens
 
 class UsersPresenter(
