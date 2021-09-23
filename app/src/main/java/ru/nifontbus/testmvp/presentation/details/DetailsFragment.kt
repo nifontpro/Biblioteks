@@ -10,8 +10,8 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.nifontbus.testmvp.databinding.FragmentDetailsBinding
 import ru.nifontbus.testmvp.models.data.GithubUser
+import ru.nifontbus.testmvp.models.images.GlideImageLoader
 import ru.nifontbus.testmvp.presentation.details.adapter.ReposRvAdapter
-import ru.nifontbus.testmvp.presentation.screens.AndroidScreens
 import ru.nifontbus.testmvp.presentation.screens.BackButtonListener
 
 class DetailsFragment : MvpAppCompatFragment(), DetailsView,
@@ -34,6 +34,7 @@ class DetailsFragment : MvpAppCompatFragment(), DetailsView,
 
     override fun showDetailsUser(detailsUser: GithubUser) {
         binding.tvLogin.text = detailsUser.login
+        GlideImageLoader().loadInto(detailsUser.avatarUrl, binding.ivAvatar)
     }
 
     override fun init() {
