@@ -1,22 +1,24 @@
-package ru.nifontbus.testmvp.views.ui
+package ru.nifontbus.testmvp.presentation.details
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.databinding.FragmentDetailsBinding
-import ru.nifontbus.testmvp.models.GithubUser
-import ru.nifontbus.testmvp.presentation.DetailsPresenter
-import ru.nifontbus.testmvp.views.BackButtonListener
-import ru.nifontbus.testmvp.views.DetailsView
+import ru.nifontbus.testmvp.models.data.GithubUser
+import ru.nifontbus.testmvp.models.images.GlideImageLoader
+import ru.nifontbus.testmvp.presentation.details.adapter.ReposRvAdapter
+import ru.nifontbus.testmvp.presentation.screens.BackButtonListener
 
 class DetailsFragment : MvpAppCompatFragment(), DetailsView,
     BackButtonListener {
 
     private val presenter by moxyPresenter { DetailsPresenter() }
+    private val adapter by lazy { ReposRvAdapter(presenter.reposListPresenter) }
 
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
@@ -32,10 +34,20 @@ class DetailsFragment : MvpAppCompatFragment(), DetailsView,
 
     override fun showDetailsUser(detailsUser: GithubUser) {
         binding.tvLogin.text = detailsUser.login
+        GlideImageLoader().loadInto(detailsUser.avatarUrl, binding.ivAvatar)
+    }
 
+    override fun init() {
+        binding.rvRepos.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvRepos.adapter = adapter
         binding.btnClose.setOnClickListener {
             presenter.backPressed()
         }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun updateList() {
+        adapter.notifyDataSetChanged()
     }
 
     override fun onDestroyView() {

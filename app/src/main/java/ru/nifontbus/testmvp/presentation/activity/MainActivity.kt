@@ -1,15 +1,14 @@
-package ru.nifontbus.testmvp
+package ru.nifontbus.testmvp.presentation.activity
 
 import android.os.Bundle
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
+import ru.nifontbus.testmvp.R
 import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.databinding.ActivityMainBinding
-import ru.nifontbus.testmvp.presentation.MainPresenter
-import ru.nifontbus.testmvp.screens.AndroidScreens
-import ru.nifontbus.testmvp.views.BackButtonListener
-import ru.nifontbus.testmvp.views.MainView
+import ru.nifontbus.testmvp.presentation.screens.AndroidScreens
+import ru.nifontbus.testmvp.presentation.screens.BackButtonListener
 
 class MainActivity : MvpAppCompatActivity(), MainView {
 
@@ -18,7 +17,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
 
     private val navigator = AppNavigator(this, R.id.container)
 
-    private val presenter by moxyPresenter { MainPresenter(App.instance.router, AndroidScreens()) }
+    private val presenter by moxyPresenter { MainPresenter(App.instance.router, AndroidScreens) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

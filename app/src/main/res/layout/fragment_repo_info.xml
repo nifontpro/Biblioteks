@@ -40,21 +40,41 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/sListRepos"
-        android:textSize="18sp"
+        android:layout_marginTop="100dp"
+        android:text="@string/sRepository"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@+id/iv_avatar"
         app:layout_constraintTop_toBottomOf="@+id/iv_avatar" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvRepos"
-        android:layout_width="match_parent"
-        android:layout_height="380dp"
-        android:background="@color/gray"
-        app:layout_constraintBottom_toTopOf="@+id/btnClose"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+    <TextView
+        android:id="@+id/tvRepositoryName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        tools:text="Название репозитория" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:textSize="22sp"
+        android:text="@string/sForkCount"
+        app:layout_constraintStart_toStartOf="@+id/tvRepositoryName"
+        app:layout_constraintTop_toBottomOf="@+id/tvRepositoryName" />
+
+    <TextView
+        android:id="@+id/tvForkCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:textSize="22sp"
+        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintTop_toTopOf="@+id/textView4"
+        tools:text="0" />
 
     <Button
         android:id="@+id/btnClose"

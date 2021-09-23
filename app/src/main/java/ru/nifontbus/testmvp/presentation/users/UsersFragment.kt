@@ -1,26 +1,38 @@
-package ru.nifontbus.testmvp.views.ui
+package ru.nifontbus.testmvp.presentation.users
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.databinding.FragmentUsersBinding
-import ru.nifontbus.testmvp.models.GithubUsersRepo
-import ru.nifontbus.testmvp.presentation.UsersPresenter
-import ru.nifontbus.testmvp.screens.AndroidScreens
-import ru.nifontbus.testmvp.views.BackButtonListener
+import ru.nifontbus.testmvp.models.images.GlideImageLoader
+import ru.nifontbus.testmvp.models.repo.ApiHolder
+import ru.nifontbus.testmvp.models.repo.GithubUsersRepo
+import ru.nifontbus.testmvp.presentation.screens.BackButtonListener
+import ru.nifontbus.testmvp.presentation.users.adapter.UsersRvAdapter
 
 class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
     private val presenter by moxyPresenter {
-        UsersPresenter(GithubUsersRepo(), App.instance.router, AndroidScreens())
+        UsersPresenter(
+            AndroidSchedulers.mainThread(),
+            GithubUsersRepo(ApiHolder.api),
+            App.instance.router
+        )
     }
 
-    private val adapter by lazy { UsersRvAdapter(presenter.usersListPresenter) }
+    private val adapter by lazy {
+        UsersRvAdapter(
+            presenter.usersListPresenter,
+            GlideImageLoader()
+        )
+    }
 
     private var _binding: FragmentUsersBinding? = null
     private val binding get() = _binding!!
@@ -39,6 +51,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
         binding.rvUsers.adapter = adapter
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun updateList() {
         adapter.notifyDataSetChanged()
     }

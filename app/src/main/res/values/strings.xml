@@ -1,8 +1,11 @@
 <resources>
-    <string name="app_name">Test MVP</string>
+    <string name="app_name">Github пользователи</string>
     <string name="counter_one">Счетчик 1</string>
     <string name="counter_two">Счетчик 2</string>
     <string name="counter_three">Счетчик 3</string>
-    <string name="s_user">Пользователь</string>
+    <string name="s_user">Пользователь:</string>
     <string name="s_close">Закрыть</string>
+    <string name="sListRepos">Список репозиториев:</string>
+    <string name="sForkCount">Количество форков:</string>
+    <string name="sRepository">Репозиторий:</string>
 </resources>

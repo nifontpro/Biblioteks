@@ -1,7 +1,7 @@
-package ru.nifontbus.testmvp.presentation
+package ru.nifontbus.testmvp.presentation.users.adapter
 
-import ru.nifontbus.testmvp.models.GithubUser
-import ru.nifontbus.testmvp.views.UserItemView
+import ru.nifontbus.testmvp.models.data.GithubUser
+import ru.nifontbus.testmvp.presentation.IUserListPresenter
 
 class UsersListPresenter : IUserListPresenter {
 
@@ -11,7 +11,8 @@ class UsersListPresenter : IUserListPresenter {
 
     override fun bindView(view: UserItemView) {
         val user = users[view.pos]
-        view.showLogin(user.login)
+        user.login?.let { view.showLogin(it) }
+        user.avatarUrl?.let { view.loadAvatar(it) }
     }
 
     override fun getCount(): Int = users.size

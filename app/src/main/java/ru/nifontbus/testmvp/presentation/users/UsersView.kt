@@ -1,4 +1,4 @@
-package ru.nifontbus.testmvp.views.ui
+package ru.nifontbus.testmvp.presentation.users
 
 import moxy.MvpView
 import moxy.viewstate.strategy.alias.AddToEndSingle

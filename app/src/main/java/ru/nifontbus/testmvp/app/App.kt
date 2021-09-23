@@ -3,7 +3,6 @@ package ru.nifontbus.testmvp.app
 import android.app.Application
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
-import ru.nifontbus.testmvp.models.DetailsUserRepo
 
 class App:Application() {
 
@@ -12,8 +11,6 @@ class App:Application() {
     }
     val navigationHolder get() = cicerone.getNavigatorHolder()
     val router get() = cicerone.router
-
-    val detailsUserRepo = DetailsUserRepo()
 
     override fun onCreate() {
         super.onCreate()
