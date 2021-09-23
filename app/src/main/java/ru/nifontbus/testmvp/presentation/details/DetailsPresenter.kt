@@ -5,12 +5,15 @@ import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpPresenter
 import ru.nifontbus.testmvp.app.App
-import ru.nifontbus.testmvp.models.remote.ApiHolder
+import ru.nifontbus.testmvp.models.data.GithubRepository
+import ru.nifontbus.testmvp.models.data.GithubUser
+import ru.nifontbus.testmvp.models.repo.ApiHolder
 import ru.nifontbus.testmvp.models.repo.GithubUsersRepo
 import ru.nifontbus.testmvp.presentation.details.adapter.ReposListPresenter
-import ru.nifontbus.testmvp.presentation.users.adapter.UsersListPresenter
+import ru.nifontbus.testmvp.presentation.screens.AndroidScreens
+import ru.nifontbus.testmvp.presentation.screens.IScreens
 
-class DetailsPresenter : MvpPresenter<DetailsView>() {
+class DetailsPresenter() : MvpPresenter<DetailsView>() {
 
     private val usersRepo = GithubUsersRepo(ApiHolder.api)
     private val detailsUserRepo = App.instance.detailsUserRepo
@@ -22,15 +25,21 @@ class DetailsPresenter : MvpPresenter<DetailsView>() {
         super.onFirstViewAttach()
         viewState.init()
         viewState.showDetailsUser(detailsUserRepo.detailsUser)
+        loadRepository()
 
+        reposListPresenter.itemClickListener = { itemView ->
+            val detailsRepos = reposListPresenter.repos[itemView.pos]
+            CurrentRepoInfo.detailsRepo = detailsRepos
+            Log.e("my", detailsRepos.toString())
+            router.navigateTo(AndroidScreens.repoInfoScreen())
+        }
+    }
+
+    private fun loadRepository() {
         detailsUserRepo.detailsUser.reposUrl?.let { url ->
             usersRepo.getRepository(url)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { repos ->
-                    repos.forEach { repo ->
-                        Log.e("my", repo.name.orEmpty())
-                    }
-
                     reposListPresenter.repos.clear()
                     reposListPresenter.repos.addAll(repos)
                     viewState.updateList()
@@ -42,4 +51,8 @@ class DetailsPresenter : MvpPresenter<DetailsView>() {
         router.exit()
         return true
     }
+}
+
+object CurrentRepoInfo {
+    var detailsRepo: GithubRepository = GithubRepository("Not init")
 }

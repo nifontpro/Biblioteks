@@ -11,6 +11,7 @@ import moxy.ktx.moxyPresenter
 import ru.nifontbus.testmvp.databinding.FragmentDetailsBinding
 import ru.nifontbus.testmvp.models.data.GithubUser
 import ru.nifontbus.testmvp.presentation.details.adapter.ReposRvAdapter
+import ru.nifontbus.testmvp.presentation.screens.AndroidScreens
 import ru.nifontbus.testmvp.presentation.screens.BackButtonListener
 
 class DetailsFragment : MvpAppCompatFragment(), DetailsView,
@@ -33,15 +34,14 @@ class DetailsFragment : MvpAppCompatFragment(), DetailsView,
 
     override fun showDetailsUser(detailsUser: GithubUser) {
         binding.tvLogin.text = detailsUser.login
-
-        binding.btnClose.setOnClickListener {
-            presenter.backPressed()
-        }
     }
 
     override fun init() {
         binding.rvRepos.layoutManager = LinearLayoutManager(requireContext())
         binding.rvRepos.adapter = adapter
+        binding.btnClose.setOnClickListener {
+            presenter.backPressed()
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")

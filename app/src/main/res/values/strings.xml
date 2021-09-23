@@ -6,4 +6,5 @@
     <string name="s_user">Пользователь:</string>
     <string name="s_close">Закрыть</string>
     <string name="sListRepos">Список репозиториев:</string>
+    <string name="sForkCount">Количество форков:</string>
 </resources>
