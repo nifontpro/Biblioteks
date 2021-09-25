@@ -11,6 +11,7 @@ import moxy.ktx.moxyPresenter
 import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.databinding.FragmentDetailsBinding
 import ru.nifontbus.testmvp.models.data.GithubUser
+import ru.nifontbus.testmvp.models.db.UserCache
 import ru.nifontbus.testmvp.models.repo.ApiHolder
 import ru.nifontbus.testmvp.models.repo.GithubUsersRepo
 import ru.nifontbus.testmvp.models.utils.images.GlideImageLoader
@@ -26,7 +27,7 @@ class DetailsFragment : MvpAppCompatFragment(), DetailsView,
             GithubUsersRepo(
                 ApiHolder.api,
                 AndroidNetworkStatus(requireContext()),
-                App.getRoomDb()
+                UserCache()
             )
         )
     }
