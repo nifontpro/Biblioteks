@@ -10,7 +10,7 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.nifontbus.testmvp.databinding.FragmentDetailsBinding
 import ru.nifontbus.testmvp.models.data.GithubUser
-import ru.nifontbus.testmvp.models.images.GlideImageLoader
+import ru.nifontbus.testmvp.models.utils.images.GlideImageLoader
 import ru.nifontbus.testmvp.presentation.details.adapter.ReposRvAdapter
 import ru.nifontbus.testmvp.presentation.screens.BackButtonListener
 

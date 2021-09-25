@@ -17,7 +17,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
 
     private val navigator = AppNavigator(this, R.id.container)
 
-    private val presenter by moxyPresenter { MainPresenter(App.instance.router, AndroidScreens) }
+    private val presenter by moxyPresenter { MainPresenter(App.appInstance.router, AndroidScreens) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,12 +28,12 @@ class MainActivity : MvpAppCompatActivity(), MainView {
 
     override fun onResumeFragments() {
         super.onResumeFragments()
-        App.instance.navigationHolder.setNavigator(navigator)
+        App.appInstance.navigationHolder.setNavigator(navigator)
     }
 
     override fun onPause() {
         super.onPause()
-        App.instance.navigationHolder.removeNavigator()
+        App.appInstance.navigationHolder.removeNavigator()
     }
 
     override fun onBackPressed() {

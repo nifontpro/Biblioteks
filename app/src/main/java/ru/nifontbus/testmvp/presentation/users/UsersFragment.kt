@@ -11,7 +11,7 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.databinding.FragmentUsersBinding
-import ru.nifontbus.testmvp.models.images.GlideImageLoader
+import ru.nifontbus.testmvp.models.utils.images.GlideImageLoader
 import ru.nifontbus.testmvp.models.repo.ApiHolder
 import ru.nifontbus.testmvp.models.repo.GithubUsersRepo
 import ru.nifontbus.testmvp.presentation.screens.BackButtonListener
@@ -23,7 +23,7 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
         UsersPresenter(
             AndroidSchedulers.mainThread(),
             GithubUsersRepo(ApiHolder.api),
-            App.instance.router
+            App.appInstance.router
         )
     }
 

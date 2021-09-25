@@ -15,7 +15,7 @@ import ru.nifontbus.testmvp.presentation.users.CurrentDetailsUser
 class DetailsPresenter : MvpPresenter<DetailsView>() {
 
     private val usersRepo = GithubUsersRepo(ApiHolder.api)
-    private val router: Router = App.instance.router
+    private val router: Router = App.appInstance.router
 
     val reposListPresenter = ReposListPresenter()
 
