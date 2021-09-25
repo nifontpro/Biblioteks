@@ -6,5 +6,5 @@ import ru.nifontbus.testmvp.models.data.GithubUser
 
 interface IGithubUsersRepo {
     fun getUsers(): Single<List<GithubUser>>
-    fun getRepository(urlRepository: String) : Single<List<GithubRepository>>
+    fun getRepository(user: GithubUser) : Single<List<GithubRepository>>
 }

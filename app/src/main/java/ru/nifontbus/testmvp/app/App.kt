@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
-import ru.nifontbus.testmvp.models.db.dao.GithubDatabase
+import ru.nifontbus.testmvp.models.db.GithubDatabase
 
 class App:Application() {
 

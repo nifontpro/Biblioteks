@@ -5,16 +5,17 @@ import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpPresenter
 import ru.nifontbus.testmvp.app.App
+import ru.nifontbus.testmvp.app.App.Companion.getRoomDb
 import ru.nifontbus.testmvp.models.data.GithubRepository
 import ru.nifontbus.testmvp.models.repo.ApiHolder
 import ru.nifontbus.testmvp.models.repo.GithubUsersRepo
+import ru.nifontbus.testmvp.models.utils.network.AndroidNetworkStatus
 import ru.nifontbus.testmvp.presentation.details.adapter.ReposListPresenter
 import ru.nifontbus.testmvp.presentation.screens.AndroidScreens
 import ru.nifontbus.testmvp.presentation.users.CurrentDetailsUser
 
-class DetailsPresenter : MvpPresenter<DetailsView>() {
+class DetailsPresenter(private val usersRepo: GithubUsersRepo) : MvpPresenter<DetailsView>() {
 
-    private val usersRepo = GithubUsersRepo(ApiHolder.api)
     private val router: Router = App.appInstance.router
 
     val reposListPresenter = ReposListPresenter()
@@ -27,22 +28,20 @@ class DetailsPresenter : MvpPresenter<DetailsView>() {
     }
 
     private fun loadRepository() {
-        CurrentDetailsUser.detailsUser.reposUrl?.let { url ->
-            usersRepo.getRepository(url)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { repos ->
-                    reposListPresenter.repos.clear()
-                    reposListPresenter.repos.addAll(repos)
-                    viewState.updateList()
+        usersRepo.getRepository(CurrentDetailsUser.detailsUser)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { repos ->
+                reposListPresenter.repos.clear()
+                reposListPresenter.repos.addAll(repos)
+                viewState.updateList()
 
-                    reposListPresenter.itemClickListener = { itemView ->
-                        val detailsRepos = reposListPresenter.repos[itemView.pos]
-                        CurrentRepoInfo.detailsRepo = detailsRepos
-                        Log.e("my", detailsRepos.toString())
-                        router.navigateTo(AndroidScreens.repoInfoScreen())
-                    }
+                reposListPresenter.itemClickListener = { itemView ->
+                    val detailsRepos = reposListPresenter.repos[itemView.pos]
+                    CurrentRepoInfo.detailsRepo = detailsRepos
+                    Log.e("my", detailsRepos.toString())
+                    router.navigateTo(AndroidScreens.repoInfoScreen())
                 }
-        }
+            }
     }
 
     fun backPressed(): Boolean {

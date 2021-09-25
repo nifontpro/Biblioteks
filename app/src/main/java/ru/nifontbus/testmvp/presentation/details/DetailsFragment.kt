@@ -8,16 +8,29 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.databinding.FragmentDetailsBinding
 import ru.nifontbus.testmvp.models.data.GithubUser
+import ru.nifontbus.testmvp.models.repo.ApiHolder
+import ru.nifontbus.testmvp.models.repo.GithubUsersRepo
 import ru.nifontbus.testmvp.models.utils.images.GlideImageLoader
+import ru.nifontbus.testmvp.models.utils.network.AndroidNetworkStatus
 import ru.nifontbus.testmvp.presentation.details.adapter.ReposRvAdapter
 import ru.nifontbus.testmvp.presentation.screens.BackButtonListener
 
 class DetailsFragment : MvpAppCompatFragment(), DetailsView,
     BackButtonListener {
 
-    private val presenter by moxyPresenter { DetailsPresenter() }
+    private val presenter by moxyPresenter {
+        DetailsPresenter(
+            GithubUsersRepo(
+                ApiHolder.api,
+                AndroidNetworkStatus(requireContext()),
+                App.getRoomDb()
+            )
+        )
+    }
+
     private val adapter by lazy { ReposRvAdapter(presenter.reposListPresenter) }
 
     private var _binding: FragmentDetailsBinding? = null

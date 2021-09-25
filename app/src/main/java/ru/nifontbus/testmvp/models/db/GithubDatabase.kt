@@ -1,9 +1,9 @@
-package ru.nifontbus.testmvp.models.db.dao
+package ru.nifontbus.testmvp.models.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import ru.nifontbus.testmvp.models.db.RoomGithubRepository
-import ru.nifontbus.testmvp.models.db.RoomGithubUser
+import ru.nifontbus.testmvp.models.db.dao.RepositoryDao
+import ru.nifontbus.testmvp.models.db.dao.UserDao
 
 @Database(
     entities = [
