@@ -8,7 +8,7 @@ import ru.nifontbus.testmvp.presentation.users.CurrentDetailsUser
 
 class RepoInfoPresenter : MvpPresenter<RepoInfoView>() {
 
-    private val router: Router = App.instance.router
+    private val router: Router = App.appInstance.router
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()

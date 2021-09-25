@@ -1,8 +1,10 @@
 package ru.nifontbus.testmvp.app
 
 import android.app.Application
+import androidx.room.Room
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
+import ru.nifontbus.testmvp.models.db.GithubDatabase
 
 class App:Application() {
 
@@ -14,10 +16,25 @@ class App:Application() {
 
     override fun onCreate() {
         super.onCreate()
-        instance = this
+        appInstance = this
     }
 
     companion object {
-        lateinit var instance: App
+        lateinit var appInstance: App
+        private const val DB_NAME = "github_users.db"
+
+        private val room_db by lazy {
+            Room.databaseBuilder(
+                appInstance.applicationContext,
+                GithubDatabase::class.java,
+                DB_NAME
+            )
+//                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build()
+        }
+
+        fun getRoomDb() = room_db
+
     }
 }

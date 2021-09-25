@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import ru.nifontbus.testmvp.databinding.ItemUserBinding
-import ru.nifontbus.testmvp.models.images.IImageLoader
+import ru.nifontbus.testmvp.models.utils.images.IImageLoader
 import ru.nifontbus.testmvp.presentation.IUserListPresenter
 
 class UsersRvAdapter(
