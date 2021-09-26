@@ -5,10 +5,16 @@ import moxy.MvpPresenter
 import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.presentation.details.CurrentRepoInfo
 import ru.nifontbus.testmvp.presentation.users.CurrentDetailsUser
+import javax.inject.Inject
 
 class RepoInfoPresenter : MvpPresenter<RepoInfoView>() {
 
-    private val router: Router = App.appInstance.router
+    @Inject
+    lateinit var router: Router
+
+    init {
+        App.instance.appComponent.inject(this)
+    }
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()

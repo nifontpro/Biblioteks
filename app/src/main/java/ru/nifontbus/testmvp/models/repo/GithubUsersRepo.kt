@@ -4,13 +4,13 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import ru.nifontbus.testmvp.models.data.GithubRepository
 import ru.nifontbus.testmvp.models.data.GithubUser
-import ru.nifontbus.testmvp.models.db.LocalCache
+import ru.nifontbus.testmvp.models.db.ILocalCache
 import ru.nifontbus.testmvp.models.utils.network.INetworkStatus
 
 class GithubUsersRepo(
     private val api: IDataSource,
     private val networkStatus: INetworkStatus,
-    private val localCache: LocalCache
+    private val localCache: ILocalCache
 ) : IGithubUsersRepo {
 
     override fun getUsers(): Single<List<GithubUser>> =
