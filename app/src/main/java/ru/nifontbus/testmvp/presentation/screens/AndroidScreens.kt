@@ -6,7 +6,7 @@ import ru.nifontbus.testmvp.presentation.details.DetailsFragment
 import ru.nifontbus.testmvp.presentation.repos_info.RepoInfoFragment
 import ru.nifontbus.testmvp.presentation.users.UsersFragment
 
-object AndroidScreens : IScreens {
+class AndroidScreens : IScreens {
 
     override fun usersScreen(): Screen = FragmentScreen { UsersFragment.newInstance() }
     override fun detailsScreen(): Screen = FragmentScreen { DetailsFragment.newInstance() }
