@@ -6,31 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.databinding.FragmentUsersBinding
-import ru.nifontbus.testmvp.models.db.GithubDatabase
-import ru.nifontbus.testmvp.models.db.LocalCache
-import ru.nifontbus.testmvp.models.repo.ApiHolder
-import ru.nifontbus.testmvp.models.repo.GithubUsersRepo
-import ru.nifontbus.testmvp.models.utils.images.GlideImageLoader
-import ru.nifontbus.testmvp.models.utils.network.AndroidNetworkStatus
 import ru.nifontbus.testmvp.presentation.screens.BackButtonListener
 import ru.nifontbus.testmvp.presentation.users.adapter.UsersRvAdapter
-import javax.inject.Inject
 
 class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
-    private val presenter by moxyPresenter { UsersPresenter(AndroidSchedulers.mainThread()) }
-
-    private val adapter by lazy {
-        UsersRvAdapter(
-            presenter.usersListPresenter,
-            GlideImageLoader()
-        )
-    }
+    private val presenter by moxyPresenter { UsersPresenter() }
+    private val adapter by lazy { UsersRvAdapter(presenter.usersListPresenter) }
 
     private var _binding: FragmentUsersBinding? = null
     private val binding get() = _binding!!

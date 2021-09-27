@@ -1,8 +1,7 @@
 package ru.nifontbus.testmvp.presentation.details
 
-import android.util.Log
 import com.github.terrakok.cicerone.Router
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
 import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.models.data.GithubRepository
@@ -13,6 +12,9 @@ import ru.nifontbus.testmvp.presentation.users.CurrentDetailsUser
 import javax.inject.Inject
 
 class DetailsPresenter : MvpPresenter<DetailsView>() {
+
+    @Inject
+    lateinit var uiScheduler: Scheduler
 
     @Inject
     lateinit var usersRepo: IGithubUsersRepo
@@ -38,7 +40,7 @@ class DetailsPresenter : MvpPresenter<DetailsView>() {
 
     private fun loadRepository() {
         usersRepo.getRepository(CurrentDetailsUser.detailsUser)
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(uiScheduler)
             .subscribe { repos ->
                 reposListPresenter.repos.clear()
                 reposListPresenter.repos.addAll(repos)
@@ -47,7 +49,6 @@ class DetailsPresenter : MvpPresenter<DetailsView>() {
                 reposListPresenter.itemClickListener = { itemView ->
                     val detailsRepos = reposListPresenter.repos[itemView.pos]
                     CurrentRepoInfo.detailsRepo = detailsRepos
-                    Log.e("my", detailsRepos.toString())
                     router.navigateTo(screens.repoInfoScreen())
                 }
             }
