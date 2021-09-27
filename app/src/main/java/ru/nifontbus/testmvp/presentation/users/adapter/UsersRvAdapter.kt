@@ -4,14 +4,22 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.databinding.ItemUserBinding
 import ru.nifontbus.testmvp.models.utils.images.IImageLoader
 import ru.nifontbus.testmvp.presentation.IUserListPresenter
+import javax.inject.Inject
 
 class UsersRvAdapter(
     private val presenter: IUserListPresenter,
-    private val imageLoader: IImageLoader<ImageView>
 ) : RecyclerView.Adapter<UsersRvAdapter.ViewHolder>() {
+
+    @Inject
+    lateinit var imageLoader: IImageLoader<ImageView>
+
+    init {
+        App.instance.appComponent.inject(this)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(

@@ -10,9 +10,10 @@ import ru.nifontbus.testmvp.presentation.screens.IScreens
 import ru.nifontbus.testmvp.presentation.users.adapter.UsersListPresenter
 import javax.inject.Inject
 
-class UsersPresenter(
-    private val uiScheduler: Scheduler,
-) : MvpPresenter<UsersView>() {
+class UsersPresenter : MvpPresenter<UsersView>() {
+
+    @Inject
+    lateinit var uiScheduler: Scheduler
 
     @Inject
     lateinit var usersRepo: IGithubUsersRepo
