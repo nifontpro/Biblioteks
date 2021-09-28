@@ -8,13 +8,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.databinding.FragmentUsersBinding
 import ru.nifontbus.testmvp.presentation.screens.BackButtonListener
 import ru.nifontbus.testmvp.presentation.users.adapter.UsersRvAdapter
+import javax.inject.Inject
 
 class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
-    private val presenter by moxyPresenter { UsersPresenter() }
+    @Inject
+    lateinit var usersPresenter: UsersPresenter
+
+    private val presenter by moxyPresenter { usersPresenter }
     private val adapter by lazy { UsersRvAdapter(presenter.usersListPresenter) }
 
     private var _binding: FragmentUsersBinding? = null
@@ -49,6 +54,8 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     }
 
     companion object {
-        fun newInstance() = UsersFragment()
+        fun newInstance() = UsersFragment().apply {
+            App.instance.appComponent.inject(this)
+        }
     }
 }

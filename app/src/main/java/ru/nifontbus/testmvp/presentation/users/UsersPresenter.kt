@@ -24,6 +24,8 @@ class UsersPresenter : MvpPresenter<UsersView>() {
     @Inject
     lateinit var screens: IScreens
 
+    var currentUser: GithubUser = GithubUser("Not init")
+
     val usersListPresenter = UsersListPresenter()
 
     init {
@@ -36,9 +38,7 @@ class UsersPresenter : MvpPresenter<UsersView>() {
         loadData()
 
         usersListPresenter.itemClickListener = { itemView ->
-            val detailsUser = usersListPresenter.users[itemView.pos]
-            CurrentDetailsUser.detailsUser = detailsUser
-
+            currentUser = usersListPresenter.users[itemView.pos]
             router.navigateTo(screens.detailsScreen())
         }
     }
@@ -57,8 +57,4 @@ class UsersPresenter : MvpPresenter<UsersView>() {
         router.exit()
         return true
     }
-}
-
-object CurrentDetailsUser {
-    var detailsUser: GithubUser = GithubUser("Not init")
 }
