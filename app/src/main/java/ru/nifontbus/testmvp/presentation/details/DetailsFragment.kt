@@ -5,19 +5,28 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.databinding.FragmentDetailsBinding
 import ru.nifontbus.testmvp.models.data.GithubUser
-import ru.nifontbus.testmvp.models.utils.images.GlideImageLoader
+import ru.nifontbus.testmvp.models.utils.images.IImageLoader
 import ru.nifontbus.testmvp.presentation.details.adapter.ReposRvAdapter
 import ru.nifontbus.testmvp.presentation.screens.BackButtonListener
+import javax.inject.Inject
 
 class DetailsFragment : MvpAppCompatFragment(), DetailsView,
     BackButtonListener {
 
-    private val presenter by moxyPresenter { DetailsPresenter() }
+    @Inject
+    lateinit var detailsPresenter: DetailsPresenter
+
+    @Inject
+    lateinit var imageLoader: IImageLoader<ImageView>
+
+    private val presenter by moxyPresenter { detailsPresenter }
     private val adapter by lazy { ReposRvAdapter(presenter.reposListPresenter) }
 
     private var _binding: FragmentDetailsBinding? = null
@@ -34,7 +43,7 @@ class DetailsFragment : MvpAppCompatFragment(), DetailsView,
 
     override fun showDetailsUser(detailsUser: GithubUser) {
         binding.tvLogin.text = detailsUser.login
-        GlideImageLoader().loadInto(detailsUser.avatarUrl, binding.ivAvatar)
+        imageLoader.loadInto(detailsUser.avatarUrl, binding.ivAvatar)
     }
 
     override fun init() {
@@ -60,6 +69,8 @@ class DetailsFragment : MvpAppCompatFragment(), DetailsView,
     }
 
     companion object {
-        fun newInstance() = DetailsFragment()
+        fun newInstance() = DetailsFragment().apply {
+            App.instance.appComponent.inject(this)
+        }
     }
 }

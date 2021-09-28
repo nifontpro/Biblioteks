@@ -4,15 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.databinding.FragmentRepoInfoBinding
 import ru.nifontbus.testmvp.models.data.GithubRepository
 import ru.nifontbus.testmvp.models.data.GithubUser
-import ru.nifontbus.testmvp.models.utils.images.GlideImageLoader
+import ru.nifontbus.testmvp.models.utils.images.IImageLoader
 import ru.nifontbus.testmvp.presentation.screens.BackButtonListener
+import javax.inject.Inject
 
 class RepoInfoFragment : MvpAppCompatFragment(), RepoInfoView, BackButtonListener {
+
+    @Inject
+    lateinit var imageLoader: IImageLoader<ImageView>
 
     private val presenter by moxyPresenter { RepoInfoPresenter() }
 
@@ -36,7 +42,7 @@ class RepoInfoFragment : MvpAppCompatFragment(), RepoInfoView, BackButtonListene
 
     override fun showDetailsUser(detailsUser: GithubUser) {
         binding.tvLogin.text = detailsUser.login
-        GlideImageLoader().loadInto(detailsUser.avatarUrl, binding.ivAvatar)
+        imageLoader.loadInto(detailsUser.avatarUrl, binding.ivAvatar)
     }
 
     override fun showRepoInfo(repo: GithubRepository) {
@@ -54,6 +60,8 @@ class RepoInfoFragment : MvpAppCompatFragment(), RepoInfoView, BackButtonListene
     }
 
     companion object {
-        fun newInstance() = RepoInfoFragment()
+        fun newInstance() = RepoInfoFragment().apply {
+            App.instance.appComponent.inject(this)
+        }
     }
 }

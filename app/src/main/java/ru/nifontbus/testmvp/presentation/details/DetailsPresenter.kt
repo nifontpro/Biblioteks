@@ -8,10 +8,13 @@ import ru.nifontbus.testmvp.models.data.GithubRepository
 import ru.nifontbus.testmvp.models.repo.IGithubUsersRepo
 import ru.nifontbus.testmvp.presentation.details.adapter.ReposListPresenter
 import ru.nifontbus.testmvp.presentation.screens.IScreens
-import ru.nifontbus.testmvp.presentation.users.CurrentDetailsUser
+import ru.nifontbus.testmvp.presentation.users.UsersPresenter
 import javax.inject.Inject
 
 class DetailsPresenter : MvpPresenter<DetailsView>() {
+
+    @Inject
+    lateinit var usersPresenter: UsersPresenter
 
     @Inject
     lateinit var uiScheduler: Scheduler
@@ -27,6 +30,8 @@ class DetailsPresenter : MvpPresenter<DetailsView>() {
 
     val reposListPresenter = ReposListPresenter()
 
+    var currentRepository: GithubRepository = GithubRepository("Not init")
+
     init {
         App.instance.appComponent.inject(this)
     }
@@ -34,12 +39,12 @@ class DetailsPresenter : MvpPresenter<DetailsView>() {
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.init()
-        viewState.showDetailsUser(CurrentDetailsUser.detailsUser)
+        viewState.showDetailsUser(usersPresenter.currentUser)
         loadRepository()
     }
 
     private fun loadRepository() {
-        usersRepo.getRepository(CurrentDetailsUser.detailsUser)
+        usersRepo.getRepository(usersPresenter.currentUser)
             .observeOn(uiScheduler)
             .subscribe { repos ->
                 reposListPresenter.repos.clear()
@@ -47,8 +52,7 @@ class DetailsPresenter : MvpPresenter<DetailsView>() {
                 viewState.updateList()
 
                 reposListPresenter.itemClickListener = { itemView ->
-                    val detailsRepos = reposListPresenter.repos[itemView.pos]
-                    CurrentRepoInfo.detailsRepo = detailsRepos
+                    currentRepository = reposListPresenter.repos[itemView.pos]
                     router.navigateTo(screens.repoInfoScreen())
                 }
             }
@@ -58,8 +62,4 @@ class DetailsPresenter : MvpPresenter<DetailsView>() {
         router.exit()
         return true
     }
-}
-
-object CurrentRepoInfo {
-    var detailsRepo: GithubRepository = GithubRepository("Not init")
 }
