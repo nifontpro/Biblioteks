@@ -16,4 +16,8 @@ import ru.nifontbus.testmvp.models.db.dao.UserDao
 abstract class GithubDatabase : RoomDatabase() {
     abstract val userDao: UserDao
     abstract val repositoryDao: RepositoryDao
+
+    companion object {
+        const val DB_NAME = "github_users.db"
+    }
 }

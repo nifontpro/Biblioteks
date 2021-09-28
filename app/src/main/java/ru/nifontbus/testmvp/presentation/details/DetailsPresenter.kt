@@ -1,45 +1,59 @@
 package ru.nifontbus.testmvp.presentation.details
 
-import android.util.Log
 import com.github.terrakok.cicerone.Router
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
 import ru.nifontbus.testmvp.app.App
-import ru.nifontbus.testmvp.app.App.Companion.getRoomDb
 import ru.nifontbus.testmvp.models.data.GithubRepository
-import ru.nifontbus.testmvp.models.repo.ApiHolder
-import ru.nifontbus.testmvp.models.repo.GithubUsersRepo
-import ru.nifontbus.testmvp.models.utils.network.AndroidNetworkStatus
+import ru.nifontbus.testmvp.models.repo.IGithubUsersRepo
 import ru.nifontbus.testmvp.presentation.details.adapter.ReposListPresenter
-import ru.nifontbus.testmvp.presentation.screens.AndroidScreens
-import ru.nifontbus.testmvp.presentation.users.CurrentDetailsUser
+import ru.nifontbus.testmvp.presentation.screens.IScreens
+import ru.nifontbus.testmvp.presentation.users.UsersPresenter
+import javax.inject.Inject
 
-class DetailsPresenter(private val usersRepo: GithubUsersRepo) : MvpPresenter<DetailsView>() {
+class DetailsPresenter : MvpPresenter<DetailsView>() {
 
-    private val router: Router = App.appInstance.router
+    @Inject
+    lateinit var usersPresenter: UsersPresenter
+
+    @Inject
+    lateinit var uiScheduler: Scheduler
+
+    @Inject
+    lateinit var usersRepo: IGithubUsersRepo
+
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var screens: IScreens
 
     val reposListPresenter = ReposListPresenter()
+
+    var currentRepository: GithubRepository = GithubRepository("Not init")
+
+    init {
+        App.instance.appComponent.inject(this)
+    }
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.init()
-        viewState.showDetailsUser(CurrentDetailsUser.detailsUser)
+        viewState.showDetailsUser(usersPresenter.currentUser)
         loadRepository()
     }
 
     private fun loadRepository() {
-        usersRepo.getRepository(CurrentDetailsUser.detailsUser)
-            .observeOn(AndroidSchedulers.mainThread())
+        usersRepo.getRepository(usersPresenter.currentUser)
+            .observeOn(uiScheduler)
             .subscribe { repos ->
                 reposListPresenter.repos.clear()
                 reposListPresenter.repos.addAll(repos)
                 viewState.updateList()
 
                 reposListPresenter.itemClickListener = { itemView ->
-                    val detailsRepos = reposListPresenter.repos[itemView.pos]
-                    CurrentRepoInfo.detailsRepo = detailsRepos
-                    Log.e("my", detailsRepos.toString())
-                    router.navigateTo(AndroidScreens.repoInfoScreen())
+                    currentRepository = reposListPresenter.repos[itemView.pos]
+                    router.navigateTo(screens.repoInfoScreen())
                 }
             }
     }
@@ -48,8 +62,4 @@ class DetailsPresenter(private val usersRepo: GithubUsersRepo) : MvpPresenter<De
         router.exit()
         return true
     }
-}
-
-object CurrentRepoInfo {
-    var detailsRepo: GithubRepository = GithubRepository("Not init")
 }

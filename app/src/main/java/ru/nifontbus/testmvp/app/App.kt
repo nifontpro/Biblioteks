@@ -1,11 +1,30 @@
 package ru.nifontbus.testmvp.app
 
 import android.app.Application
-import androidx.room.Room
-import com.github.terrakok.cicerone.Cicerone
-import com.github.terrakok.cicerone.Router
-import ru.nifontbus.testmvp.models.db.GithubDatabase
+import ru.nifontbus.testmvp.di.AppComponent
+import ru.nifontbus.testmvp.di.DaggerAppComponent
 
+class App : Application() {
+
+    companion object {
+        lateinit var instance: App
+    }
+
+    lateinit var appComponent: AppComponent
+
+
+    override fun onCreate() {
+        super.onCreate()
+        instance = this
+
+        appComponent = DaggerAppComponent.builder()
+            .appModule(AppModule(this))
+            .build()
+    }
+}
+
+
+/*
 class App:Application() {
 
     private val cicerone: Cicerone<Router> by lazy {
@@ -37,4 +56,4 @@ class App:Application() {
         fun getRoomDb() = room_db
 
     }
-}
+}*/

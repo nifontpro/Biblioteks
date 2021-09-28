@@ -4,10 +4,16 @@ import io.reactivex.rxjava3.core.Single
 import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.models.data.GithubRepository
 import ru.nifontbus.testmvp.models.data.GithubUser
+import javax.inject.Inject
 
 class LocalCache: ILocalCache {
 
-    private val db = App.getRoomDb()
+    init {
+        App.instance.appComponent.inject(this)
+    }
+
+    @Inject
+    lateinit var db: GithubDatabase
 
     override fun saveUsersToDb(users: List<GithubUser>): Single<List<GithubUser>> =
         Single.fromCallable {
