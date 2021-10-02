@@ -5,7 +5,7 @@ import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
 import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.models.data.GithubRepository
-import ru.nifontbus.testmvp.models.repo.IGithubUsersRepo
+import ru.nifontbus.testmvp.models.repo.IGithubRepositoriesRepo
 import ru.nifontbus.testmvp.presentation.details.adapter.ReposListPresenter
 import ru.nifontbus.testmvp.presentation.screens.IScreens
 import ru.nifontbus.testmvp.presentation.users.UsersPresenter
@@ -20,7 +20,7 @@ class DetailsPresenter : MvpPresenter<DetailsView>() {
     lateinit var uiScheduler: Scheduler
 
     @Inject
-    lateinit var usersRepo: IGithubUsersRepo
+    lateinit var repo: IGithubRepositoriesRepo
 
     @Inject
     lateinit var router: Router
@@ -44,7 +44,7 @@ class DetailsPresenter : MvpPresenter<DetailsView>() {
     }
 
     private fun loadRepository() {
-        usersRepo.getRepository(usersPresenter.currentUser)
+        repo.getRepository(usersPresenter.currentUser)
             .observeOn(uiScheduler)
             .subscribe { repos ->
                 reposListPresenter.repos.clear()

@@ -1,4 +1,4 @@
-package ru.nifontbus.testmvp.di
+package ru.nifontbus.testmvp.di.modules
 
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.NavigatorHolder
