@@ -2,6 +2,7 @@ package ru.nifontbus.testmvp.di.modules
 
 import dagger.Module
 import dagger.Provides
+import ru.nifontbus.testmvp.models.db.GithubDatabase
 import ru.nifontbus.testmvp.models.db.IUserCache
 import ru.nifontbus.testmvp.models.db.UserCache
 import ru.nifontbus.testmvp.models.repo.IDataSource
@@ -23,5 +24,5 @@ class UsersModule {
 
     @Singleton
     @Provides
-    fun usersCache(): IUserCache = UserCache()
+    fun usersCache(db: GithubDatabase): IUserCache = UserCache(db)
 }

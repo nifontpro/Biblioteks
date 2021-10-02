@@ -6,14 +6,7 @@ import ru.nifontbus.testmvp.models.data.GithubRepository
 import ru.nifontbus.testmvp.models.data.GithubUser
 import javax.inject.Inject
 
-class UserCache: IUserCache {
-
-    init {
-        App.instance.appComponent.inject(this)
-    }
-
-    @Inject
-    lateinit var db: GithubDatabase
+class UserCache(val db: GithubDatabase): IUserCache {
 
     override fun saveUsersToDb(users: List<GithubUser>): Single<List<GithubUser>> =
         Single.fromCallable {

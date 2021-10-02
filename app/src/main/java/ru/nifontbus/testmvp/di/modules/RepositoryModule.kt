@@ -2,6 +2,7 @@ package ru.nifontbus.testmvp.di.modules
 
 import dagger.Module
 import dagger.Provides
+import ru.nifontbus.testmvp.models.db.GithubDatabase
 import ru.nifontbus.testmvp.models.db.IRepositoriesCache
 import ru.nifontbus.testmvp.models.db.RepositoryCache
 import ru.nifontbus.testmvp.models.repo.IDataSource
@@ -11,7 +12,7 @@ import ru.nifontbus.testmvp.models.utils.network.INetworkStatus
 import javax.inject.Singleton
 
 @Module
-class RepoModule {
+class RepositoryModule {
 
     @Singleton
     @Provides
@@ -23,6 +24,6 @@ class RepoModule {
 
     @Singleton
     @Provides
-    fun repositoriesCache(): IRepositoriesCache = RepositoryCache()
+    fun repositoriesCache(db: GithubDatabase): IRepositoriesCache = RepositoryCache(db)
 
 }

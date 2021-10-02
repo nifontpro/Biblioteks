@@ -22,7 +22,7 @@ import javax.inject.Singleton
         AppModule::class,
         CiceroneModule::class,
         DbModule::class,
-        RepoModule::class,
+        RepositoryModule::class,
         UsersModule::class,
         UtilsModule::class
     ]
@@ -35,8 +35,6 @@ interface AppComponent {
     fun inject(repositoryPresenter: RepositoryPresenter)
     fun inject(repoInfoPresenter: RepoInfoPresenter)
     fun inject(usersRvAdapter: UsersRvAdapter)
-    fun inject(userCache: UserCache)
-    fun inject(repositoryCache: RepositoryCache)
 
     fun inject(usersFragment: UsersFragment)
     fun inject(repositoryFragment: RepositoryFragment)

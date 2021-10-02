@@ -6,14 +6,7 @@ import ru.nifontbus.testmvp.models.data.GithubRepository
 import ru.nifontbus.testmvp.models.data.GithubUser
 import javax.inject.Inject
 
-class RepositoryCache : IRepositoriesCache {
-
-    init {
-        App.instance.appComponent.inject(this)
-    }
-
-    @Inject
-    lateinit var db: GithubDatabase
+class RepositoryCache(val db: GithubDatabase) : IRepositoriesCache {
 
     override fun getLocalRepositories(
         user: GithubUser,
