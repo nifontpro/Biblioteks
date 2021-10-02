@@ -1,12 +1,8 @@
-package ru.nifontbus.testmvp.di
+package ru.nifontbus.testmvp.di.component
 
 import dagger.Component
-import ru.nifontbus.testmvp.app.AppModule
-import ru.nifontbus.testmvp.models.db.CacheModule
-import ru.nifontbus.testmvp.models.db.LocalCache
-import ru.nifontbus.testmvp.models.repo.ApiModule
-import ru.nifontbus.testmvp.models.repo.RepoModule
-import ru.nifontbus.testmvp.models.utils.UtilsModule
+import ru.nifontbus.testmvp.di.CiceroneModule
+import ru.nifontbus.testmvp.di.modules.*
 import ru.nifontbus.testmvp.presentation.activity.MainActivity
 import ru.nifontbus.testmvp.presentation.activity.MainPresenter
 import ru.nifontbus.testmvp.presentation.details.DetailsFragment
@@ -32,8 +28,6 @@ import javax.inject.Singleton
 
 interface AppComponent {
     fun inject(mainActivity: MainActivity)
-    fun inject(localCache: LocalCache)
-
     fun inject(mainPresenter: MainPresenter)
     fun inject(usersPresenter: UsersPresenter)
     fun inject(detailsPresenter: DetailsPresenter)

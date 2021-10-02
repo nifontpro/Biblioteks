@@ -1,4 +1,4 @@
-package ru.nifontbus.testmvp.models.utils
+package ru.nifontbus.testmvp.di.modules
 
 import android.widget.ImageView
 import dagger.Module

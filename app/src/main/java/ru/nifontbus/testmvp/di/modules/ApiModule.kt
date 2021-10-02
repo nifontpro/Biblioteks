@@ -1,4 +1,4 @@
-package ru.nifontbus.testmvp.models.repo
+package ru.nifontbus.testmvp.di.modules
 
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
@@ -9,6 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.nifontbus.testmvp.app.App
+import ru.nifontbus.testmvp.models.repo.IDataSource
 import ru.nifontbus.testmvp.models.utils.network.AndroidNetworkStatus
 import ru.nifontbus.testmvp.models.utils.network.INetworkStatus
 import javax.inject.Named
