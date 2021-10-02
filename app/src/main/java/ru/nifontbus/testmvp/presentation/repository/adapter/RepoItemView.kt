@@ -1,4 +1,4 @@
-package ru.nifontbus.testmvp.presentation.details.adapter
+package ru.nifontbus.testmvp.presentation.repository.adapter
 
 import ru.nifontbus.testmvp.presentation.IListPresenter
 import ru.nifontbus.testmvp.presentation.users.adapter.IItemView

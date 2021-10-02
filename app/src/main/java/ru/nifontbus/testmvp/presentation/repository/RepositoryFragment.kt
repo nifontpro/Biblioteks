@@ -1,4 +1,4 @@
-package ru.nifontbus.testmvp.presentation.details
+package ru.nifontbus.testmvp.presentation.repository
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -13,20 +13,20 @@ import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.databinding.FragmentDetailsBinding
 import ru.nifontbus.testmvp.models.data.GithubUser
 import ru.nifontbus.testmvp.models.utils.images.IImageLoader
-import ru.nifontbus.testmvp.presentation.details.adapter.ReposRvAdapter
+import ru.nifontbus.testmvp.presentation.repository.adapter.ReposRvAdapter
 import ru.nifontbus.testmvp.presentation.screens.BackButtonListener
 import javax.inject.Inject
 
-class DetailsFragment : MvpAppCompatFragment(), DetailsView,
+class RepositoryFragment : MvpAppCompatFragment(), RepositoryView,
     BackButtonListener {
 
     @Inject
-    lateinit var detailsPresenter: DetailsPresenter
+    lateinit var repositoryPresenter: RepositoryPresenter
 
     @Inject
     lateinit var imageLoader: IImageLoader<ImageView>
 
-    private val presenter by moxyPresenter { detailsPresenter }
+    private val presenter by moxyPresenter { repositoryPresenter }
     private val adapter by lazy { ReposRvAdapter(presenter.reposListPresenter) }
 
     private var _binding: FragmentDetailsBinding? = null
@@ -69,7 +69,7 @@ class DetailsFragment : MvpAppCompatFragment(), DetailsView,
     }
 
     companion object {
-        fun newInstance() = DetailsFragment().apply {
+        fun newInstance() = RepositoryFragment().apply {
             App.instance.appComponent.inject(this)
         }
     }

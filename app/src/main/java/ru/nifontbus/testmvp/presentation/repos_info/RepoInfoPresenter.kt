@@ -3,7 +3,7 @@ package ru.nifontbus.testmvp.presentation.repos_info
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
 import ru.nifontbus.testmvp.app.App
-import ru.nifontbus.testmvp.presentation.details.DetailsPresenter
+import ru.nifontbus.testmvp.presentation.repository.RepositoryPresenter
 import ru.nifontbus.testmvp.presentation.users.UsersPresenter
 import javax.inject.Inject
 
@@ -16,7 +16,7 @@ class RepoInfoPresenter : MvpPresenter<RepoInfoView>() {
     lateinit var usersPresenter: UsersPresenter
 
     @Inject
-    lateinit var detailsPresenter: DetailsPresenter
+    lateinit var repositoryPresenter: RepositoryPresenter
 
     init {
         App.instance.appComponent.inject(this)
@@ -26,7 +26,7 @@ class RepoInfoPresenter : MvpPresenter<RepoInfoView>() {
         super.onFirstViewAttach()
         viewState.init()
         viewState.showDetailsUser(usersPresenter.currentUser)
-        viewState.showRepoInfo(detailsPresenter.currentRepository)
+        viewState.showRepoInfo(repositoryPresenter.currentRepository)
     }
 
     fun backPressed(): Boolean {

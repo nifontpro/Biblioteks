@@ -1,4 +1,4 @@
-package ru.nifontbus.testmvp.presentation.details
+package ru.nifontbus.testmvp.presentation.repository
 
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
@@ -6,12 +6,12 @@ import moxy.MvpPresenter
 import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.models.data.GithubRepository
 import ru.nifontbus.testmvp.models.repo.IGithubRepositoriesRepo
-import ru.nifontbus.testmvp.presentation.details.adapter.ReposListPresenter
+import ru.nifontbus.testmvp.presentation.repository.adapter.ReposListPresenter
 import ru.nifontbus.testmvp.presentation.screens.IScreens
 import ru.nifontbus.testmvp.presentation.users.UsersPresenter
 import javax.inject.Inject
 
-class DetailsPresenter : MvpPresenter<DetailsView>() {
+class RepositoryPresenter : MvpPresenter<RepositoryView>() {
 
     @Inject
     lateinit var usersPresenter: UsersPresenter
