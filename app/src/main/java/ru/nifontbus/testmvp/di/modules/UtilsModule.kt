@@ -21,12 +21,4 @@ class UtilsModule {
     @Singleton
     @Provides
     fun uiScheduler(): Scheduler = AndroidSchedulers.mainThread()
-
-    @Singleton
-    @Provides
-    fun usersPresenter(): UsersPresenter = UsersPresenter()
-
-    @Singleton
-    @Provides
-    fun detailsPresenter(): RepositoryPresenter = RepositoryPresenter()
 }

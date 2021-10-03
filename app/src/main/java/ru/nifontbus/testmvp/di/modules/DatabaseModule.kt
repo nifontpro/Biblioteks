@@ -8,7 +8,7 @@ import ru.nifontbus.testmvp.models.db.GithubDatabase
 import javax.inject.Singleton
 
 @Module
-class DbModule {
+class DatabaseModule {
     @Singleton
     @Provides
     fun database(app: App): GithubDatabase =

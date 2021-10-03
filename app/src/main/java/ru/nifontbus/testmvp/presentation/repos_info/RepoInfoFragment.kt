@@ -11,16 +11,21 @@ import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.databinding.FragmentRepoInfoBinding
 import ru.nifontbus.testmvp.models.data.GithubRepository
 import ru.nifontbus.testmvp.models.data.GithubUser
+import ru.nifontbus.testmvp.models.utils.images.GlideImageLoader
 import ru.nifontbus.testmvp.models.utils.images.IImageLoader
+import ru.nifontbus.testmvp.presentation.repository.RepositoryFragment
 import ru.nifontbus.testmvp.presentation.screens.BackButtonListener
 import javax.inject.Inject
 
 class RepoInfoFragment : MvpAppCompatFragment(), RepoInfoView, BackButtonListener {
 
-    @Inject
-    lateinit var imageLoader: IImageLoader<ImageView>
-
-    private val presenter by moxyPresenter { RepoInfoPresenter() }
+    private val presenter by moxyPresenter {
+        val user = arguments?.getParcelable<GithubUser>(RepositoryFragment.USER_ARG) as GithubUser
+        val repository = arguments?.getParcelable<GithubRepository>(REPOS_ARG) as GithubRepository
+        RepoInfoPresenter(user, repository).apply {
+            App.instance.repositorySubcomponent?.inject(this)
+        }
+    }
 
     private var _binding: FragmentRepoInfoBinding? = null
     private val binding get() = _binding!!
@@ -42,7 +47,7 @@ class RepoInfoFragment : MvpAppCompatFragment(), RepoInfoView, BackButtonListene
 
     override fun showDetailsUser(detailsUser: GithubUser) {
         binding.tvLogin.text = detailsUser.login
-        imageLoader.loadInto(detailsUser.avatarUrl, binding.ivAvatar)
+        GlideImageLoader().loadInto(detailsUser.avatarUrl, binding.ivAvatar)
     }
 
     override fun showRepoInfo(repo: GithubRepository) {
@@ -60,8 +65,14 @@ class RepoInfoFragment : MvpAppCompatFragment(), RepoInfoView, BackButtonListene
     }
 
     companion object {
-        fun newInstance() = RepoInfoFragment().apply {
-            App.instance.appComponent.inject(this)
-        }
+        fun newInstance(user: GithubUser, repository: GithubRepository) =
+            RepoInfoFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(RepositoryFragment.USER_ARG, user)
+                    putParcelable(REPOS_ARG, repository)
+                }
+            }
+
+        private const val REPOS_ARG = "repos"
     }
 }
