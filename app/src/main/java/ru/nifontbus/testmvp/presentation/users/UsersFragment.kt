@@ -10,16 +10,20 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.nifontbus.testmvp.app.App
 import ru.nifontbus.testmvp.databinding.FragmentUsersBinding
+import ru.nifontbus.testmvp.di.component.UserSubcomponent
 import ru.nifontbus.testmvp.presentation.screens.BackButtonListener
 import ru.nifontbus.testmvp.presentation.users.adapter.UsersRvAdapter
-import javax.inject.Inject
 
 class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
 
-    @Inject
-    lateinit var usersPresenter: UsersPresenter
+    private var userSubcomponent: UserSubcomponent? = null
 
-    private val presenter by moxyPresenter { usersPresenter }
+    private val presenter by moxyPresenter {
+        UsersPresenter().apply {
+            userSubcomponent = App.instance.initUserSubcomponent()
+            userSubcomponent?.inject(this)
+        }
+    }
     private val adapter by lazy { UsersRvAdapter(presenter.usersListPresenter) }
 
     private var _binding: FragmentUsersBinding? = null
@@ -54,8 +58,6 @@ class UsersFragment : MvpAppCompatFragment(), UsersView, BackButtonListener {
     }
 
     companion object {
-        fun newInstance() = UsersFragment().apply {
-            App.instance.appComponent.inject(this)
-        }
+        fun newInstance() = UsersFragment()
     }
 }

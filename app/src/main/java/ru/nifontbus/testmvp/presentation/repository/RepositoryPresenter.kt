@@ -1,26 +1,25 @@
-package ru.nifontbus.testmvp.presentation.details
+package ru.nifontbus.testmvp.presentation.repository
 
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
 import ru.nifontbus.testmvp.app.App
+import ru.nifontbus.testmvp.di.scopes.IRepositoryScopeContainer
 import ru.nifontbus.testmvp.models.data.GithubRepository
-import ru.nifontbus.testmvp.models.repo.IGithubUsersRepo
-import ru.nifontbus.testmvp.presentation.details.adapter.ReposListPresenter
+import ru.nifontbus.testmvp.models.data.GithubUser
+import ru.nifontbus.testmvp.models.repo.IGithubRepositoriesRepo
+import ru.nifontbus.testmvp.presentation.repository.adapter.ReposListPresenter
 import ru.nifontbus.testmvp.presentation.screens.IScreens
 import ru.nifontbus.testmvp.presentation.users.UsersPresenter
 import javax.inject.Inject
 
-class DetailsPresenter : MvpPresenter<DetailsView>() {
-
-    @Inject
-    lateinit var usersPresenter: UsersPresenter
+class RepositoryPresenter(private val user: GithubUser) : MvpPresenter<RepositoryView>() {
 
     @Inject
     lateinit var uiScheduler: Scheduler
 
     @Inject
-    lateinit var usersRepo: IGithubUsersRepo
+    lateinit var repo: IGithubRepositoriesRepo
 
     @Inject
     lateinit var router: Router
@@ -28,23 +27,20 @@ class DetailsPresenter : MvpPresenter<DetailsView>() {
     @Inject
     lateinit var screens: IScreens
 
+    @Inject
+    lateinit var repositoryScopeContainer:IRepositoryScopeContainer
+
     val reposListPresenter = ReposListPresenter()
-
-    var currentRepository: GithubRepository = GithubRepository("Not init")
-
-    init {
-        App.instance.appComponent.inject(this)
-    }
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.init()
-        viewState.showDetailsUser(usersPresenter.currentUser)
+        viewState.showDetailsUser(user)
         loadRepository()
     }
 
     private fun loadRepository() {
-        usersRepo.getRepository(usersPresenter.currentUser)
+        repo.getRepository(user)
             .observeOn(uiScheduler)
             .subscribe { repos ->
                 reposListPresenter.repos.clear()
@@ -52,8 +48,8 @@ class DetailsPresenter : MvpPresenter<DetailsView>() {
                 viewState.updateList()
 
                 reposListPresenter.itemClickListener = { itemView ->
-                    currentRepository = reposListPresenter.repos[itemView.pos]
-                    router.navigateTo(screens.repoInfoScreen())
+                    val currentRepository = reposListPresenter.repos[itemView.pos]
+                    router.navigateTo(screens.repoInfoScreen(user, currentRepository))
                 }
             }
     }
@@ -61,5 +57,10 @@ class DetailsPresenter : MvpPresenter<DetailsView>() {
     fun backPressed(): Boolean {
         router.exit()
         return true
+    }
+
+    override fun onDestroy() {
+        repositoryScopeContainer.releaseRepositoryScope()
+        super.onDestroy()
     }
 }

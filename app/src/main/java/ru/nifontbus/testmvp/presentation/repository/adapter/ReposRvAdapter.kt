@@ -1,4 +1,4 @@
-package ru.nifontbus.testmvp.presentation.details.adapter
+package ru.nifontbus.testmvp.presentation.repository.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

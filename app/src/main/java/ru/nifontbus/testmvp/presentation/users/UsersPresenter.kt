@@ -4,6 +4,7 @@ import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
 import ru.nifontbus.testmvp.app.App
+import ru.nifontbus.testmvp.di.scopes.IUserScopeContainer
 import ru.nifontbus.testmvp.models.data.GithubUser
 import ru.nifontbus.testmvp.models.repo.IGithubUsersRepo
 import ru.nifontbus.testmvp.presentation.screens.IScreens
@@ -24,13 +25,10 @@ class UsersPresenter : MvpPresenter<UsersView>() {
     @Inject
     lateinit var screens: IScreens
 
-    var currentUser: GithubUser = GithubUser("Not init")
+    @Inject
+    lateinit var userScopeContainer: IUserScopeContainer
 
     val usersListPresenter = UsersListPresenter()
-
-    init {
-        App.instance.appComponent.inject(this)
-    }
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -38,8 +36,8 @@ class UsersPresenter : MvpPresenter<UsersView>() {
         loadData()
 
         usersListPresenter.itemClickListener = { itemView ->
-            currentUser = usersListPresenter.users[itemView.pos]
-            router.navigateTo(screens.detailsScreen())
+            val currentUser = usersListPresenter.users[itemView.pos]
+            router.navigateTo(screens.repositoryScreen(currentUser))
         }
     }
 
@@ -56,5 +54,10 @@ class UsersPresenter : MvpPresenter<UsersView>() {
     fun backPressed(): Boolean {
         router.exit()
         return true
+    }
+
+    override fun onDestroy() {
+        userScopeContainer.releaseUserScope()
+        super.onDestroy()
     }
 }

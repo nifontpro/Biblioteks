@@ -1,17 +1,28 @@
 package ru.nifontbus.testmvp.app
 
 import android.app.Application
-import ru.nifontbus.testmvp.di.AppComponent
-import ru.nifontbus.testmvp.di.DaggerAppComponent
+import ru.nifontbus.testmvp.di.component.AppComponent
+import ru.nifontbus.testmvp.di.component.DaggerAppComponent
+import ru.nifontbus.testmvp.di.component.RepositorySubcomponent
+import ru.nifontbus.testmvp.di.component.UserSubcomponent
+import ru.nifontbus.testmvp.di.modules.AppModule
+import ru.nifontbus.testmvp.di.scopes.IRepositoryScopeContainer
+import ru.nifontbus.testmvp.di.scopes.IUserScopeContainer
 
-class App : Application() {
+class App : Application(), IUserScopeContainer, IRepositoryScopeContainer {
 
     companion object {
         lateinit var instance: App
     }
 
     lateinit var appComponent: AppComponent
+        private set
 
+    var userSubcomponent: UserSubcomponent? = null
+        private set
+
+    var repositorySubcomponent: RepositorySubcomponent? = null
+        private set
 
     override fun onCreate() {
         super.onCreate()
@@ -21,39 +32,21 @@ class App : Application() {
             .appModule(AppModule(this))
             .build()
     }
+
+    fun initUserSubcomponent() = appComponent.userSubcomponent().also {
+        userSubcomponent = it
+    }
+
+    fun initRepositorySubcomponent() = userSubcomponent?.repositorySubcomponent().also {
+        repositorySubcomponent = it
+    }
+
+    override fun releaseRepositoryScope() {
+        repositorySubcomponent = null
+    }
+
+    override fun releaseUserScope() {
+        userSubcomponent = null
+    }
 }
 
-
-/*
-class App:Application() {
-
-    private val cicerone: Cicerone<Router> by lazy {
-        Cicerone.create()
-    }
-    val navigationHolder get() = cicerone.getNavigatorHolder()
-    val router get() = cicerone.router
-
-    override fun onCreate() {
-        super.onCreate()
-        appInstance = this
-    }
-
-    companion object {
-        lateinit var appInstance: App
-        private const val DB_NAME = "github_users.db"
-
-        private val room_db by lazy {
-            Room.databaseBuilder(
-                appInstance.applicationContext,
-                GithubDatabase::class.java,
-                DB_NAME
-            )
-//                .allowMainThreadQueries()
-                .fallbackToDestructiveMigration()
-                .build()
-        }
-
-        fun getRoomDb() = room_db
-
-    }
-}*/
